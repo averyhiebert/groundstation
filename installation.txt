@@ -1,0 +1,18 @@
+# INSTALLATION INSTRUCTIONS
+# (You could try running this as a script, even)
+# A list of everything I had to do to get the ground station so far working
+
+# Install dependencies:
+
+sudo apt-get update
+sudo apt-get install rtl-sdr           # Control sdr stick & demodulate signal
+sudo apt-get install direwolf          # Decode APRS
+sudo apt-get install chromium-browser  # Make web app look like native app
+sudo apt-get install python-pip python-dev build-essential
+                                       # Install pip to get fancy python libs.
+
+# Install python package dependencies
+
+sudo pip install --upgrade pip
+pip install autobahn[twisted]          # For WebSockets.
+
