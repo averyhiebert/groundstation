@@ -11,3 +11,24 @@ view: new ol.View({
   zoom: 12
 })
 });
+
+var iconFeatures = [];
+var vectorSource = new ol.source.Vector({features:iconFeatures});
+
+var iconStyle = new ol.style.Style({
+  image: new ol.style.Icon( ({
+    anchor: [0.5,0.5],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'fraction',
+    opacity: 1.0,
+    scale: 0.008,
+    src: 'images/rocket.png'
+  }))
+});
+
+var vectorLayer = new ol.layer.Vector({
+  source: vectorSource,
+  style: iconStyle
+});
+
+map.addLayer(vectorLayer);
