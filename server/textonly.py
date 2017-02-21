@@ -3,6 +3,8 @@
 import subprocess
 from time import localtime, strftime
 
+from brbparser import parseBRB  #Make sure brbparser.py is in same directory
+
 
 def start_decoder(helper):
     args = ["bash","./decoder/runtest.sh"]
@@ -10,10 +12,11 @@ def start_decoder(helper):
     for line in iter(process.stdout.readline,''):
         helper(line.strip())
 
+
 #Send a line of data to client
 def handle_line(line):
     if len(line) > 0 and line[0] == "[":
-        print line
+        print parseBRB(line)
     elif "alt" in line:
         print line
         print strftime("%Y-%m-%d %H:%M:%S\n",localtime())
