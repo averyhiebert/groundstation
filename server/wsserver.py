@@ -10,6 +10,7 @@ from twisted.internet import reactor
 from autobahn.twisted.websocket import WebSocketServerProtocol
 from autobahn.twisted.websocket import WebSocketServerFactory
 
+from brbparser import parseBRB
 
 #Set up websocket protocol
 latestMessage = "no data"
@@ -50,8 +51,7 @@ def start_decoder(helper):
 
 #Send a line of data to client
 def handle_line(line):
-    #frameText = line.split(":",2)[1]
-    APRSServerProtocol.broadcast_message(line)
+    APRSServerProtocol.broadcast_message(parseBRB(line))
     print line
 
 

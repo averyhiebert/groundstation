@@ -1,6 +1,6 @@
 var mainSocket = new WebSocket("ws://localhost:9000");
-var counter = 0;
 
+//No longer necessary; parsing done server side
 function parseBRB(dataString){
     //Parse bigredbee data
     //return [longitude,latitude,altitude]
@@ -29,26 +29,46 @@ mainSocket.onopen = function(event){
 }
 
 mainSocket.onmessage = function(event){
-    //console.log(event.data);
-    counter += 1;
+    //console.log(event.data)
+    var data = {};
+    
+    try{
+        data = JSON.parse(event.data);
+        console.log("Parsed well");
+        console.log(data["raw"]);
+    }catch (err){
+        console.log("Error parsing JSON");
+        return;
+    }
+     
+    //data = {"latitude":-123.3,"longitude":48.6,"altitude":200,"raw":"wrwerwr"};
+
     var label = document.getElementById("datafield");
     if(label != null){
-        label.innerHTML = event.data;
+        //label.innerHTML = event.data;
+        label.innerHTML = data["raw"]
     }
-    var data = parseBRB(event.data);
+    //var data = parseBRB(event.data);
     if(data != null){
-        document.getElementById("longitude").innerHTML = data[0];
-        document.getElementById("latitude").innerHTML = data[1];
-        document.getElementById("altitude").innerHTML = data[2];
+        //document.getElementById("longitude").innerHTML = data[0];
+        //document.getElementById("latitude").innerHTML = data[1];
+        //document.getElementById("altitude").innerHTML = data[2];
+        document.getElementById("longitude").innerHTML = data["longitude"];
+        document.getElementById("latitude").innerHTML = data["latitude"];
+        document.getElementById("altitude").innerHTML = data["altitude"];
+
+        var lat = data["latitude"];
+        var lon = data["longitude"];
 
         //Add rocket to map.
         var rocketIcon = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.transform([parseFloat(data[0]),parseFloat(data[1])], 'EPSG:4326','EPSG:3857')),
+            geometry: new ol.geom.Point(ol.proj.transform(lon,lat, 'EPSG:4326','EPSG:3857')),
             name: "Rocket"
         });
  
         vectorSource.clear();                //Remove previous markers 
         vectorSource.addFeature(rocketIcon); //Add the new marker
+        
     }
 }
 

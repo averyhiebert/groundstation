@@ -19,7 +19,7 @@ def parseBRB(line):
         lon = float(m.group("lon1")) + (float(m.group("lon2"))/60.0)
         lon = lon if m.group("lonsign") == "E" else (-1*lon)
         data["altitude"] = int(m.group("alt"))
-        data["Latitude"] = lat
+        data["latitude"] = lat
         data["longitude"] = lon
         data["error"] = False
     else:
