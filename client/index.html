@@ -11,14 +11,24 @@
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
     <title>UVic Rocketry Ground Station Prototype</title>
   </head>
-  <body>
-    <h2>View Rocket</h2>
-    Most recent data: <span id="datafield"></span><br />
-    Latitude: <span id="latitude"></span> <br />
-    Longitude: <span id="longitude"></span><br />
-    Altitude: <span id="altitude"></span><br />
-    <div id="map" class="map"></div>
-    <script src="src/temp.js" type="text/javascript"></script>
-    <script src="src/fromserver.js" type="text/javascript"></script>
-  </body>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <section class="screenContainer">
+    <div class="rocketTracker">
+      <h2>Rocket Tracker</h2>
+      Most recent data: <span id="datafield"></span><br />
+      Latitude: <span id="latitude"></span> <br />
+      Longitude: <span id="longitude"></span><br />
+      Altitude: <span id="altitude"></span><br />
+      <div id="map" class="map"></div>
+      <script src="src/temp.js" type="text/javascript"></script>
+      <script src="src/fromserver.js" type="text/javascript"></script>
+    </div>
+    <div class="altitudeChart">
+      <h2>Altitude Chart</h2>
+      <div id="flotChart" style="width: 600px; height: 300px"></div>
+      <script src="src/jquery.js"></script>
+      <script src="src/jquery.flot.js"></script>
+      <script src="src/flotChart.js" type="text/javascript"></script>
+    </div>
+  </section>
 </html>
