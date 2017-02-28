@@ -2,6 +2,7 @@ import subprocess
 
 import logging
 import sys
+import json
 import time
 import thread
 from twisted.python import log
@@ -10,7 +11,16 @@ from twisted.internet import reactor
 from autobahn.twisted.websocket import WebSocketServerProtocol
 from autobahn.twisted.websocket import WebSocketServerFactory
 
+from time import localtime, strftime
+
 from brbparser import parseBRB
+
+# Set congfiguration settings
+# (TODO: read from config file)
+doWebSocket = True
+doTestFromFile = True
+frequency = "144M"
+
 
 #Set up websocket protocol
 latestMessage = "no data"
@@ -46,26 +56,54 @@ def start_decoder(helper):
     args = ["bash","./decoder/runtest.sh"]
     process = subprocess.Popen(args,stdout=subprocess.PIPE)
     for line in iter(process.stdout.readline,''):
-        if line[0] == "[":
-            helper(line.strip())
+        helper(line.strip())
 
 #Send a line of data to client
-def handle_line(line):
-    APRSServerProtocol.broadcast_message(parseBRB(line))
-    print line
+def send_line(line):
+    if len(line) > 0 and line[0] == "[":
+        if doWebSocket:
+            APRSServerProtocol.broadcast_message(parseBRB(line))
+        #print parseBRB(line)
+        print line
+    elif "alt" in line:
+        print line
+        print strftime("%Y-%m-%d %H:%M:%S\n",localtime())
 
+def testFromFile(filename):
+    f = open(filename)
+    s = f.read()
+    f.close()
+    testData = json.loads(s)
 
-
+    i = 0
+    while True:
+        if doWebSocket:
+            APRSServerProtocol.broadcast_message(json.dumps(testData[i]))
+        print testData[i]
+        i = (i + 1) % len(testData)
+        time.sleep(1)
 
 def main():
-    #start decoder
-    thread.start_new_thread(lambda:start_decoder(handle_line),())
-
     #create and start server
-    factory = WebSocketServerFactory()
-    factory.protocol = APRSServerProtocol
-    reactor.listenTCP(9000, factory)
-    reactor.run()
+    mainLooper = lambda:start_decoder(send_line)
+
+    if doTestFromFile:
+        mainLooper = lambda:testFromFile("data.json")
+    else:
+        mainLooper = lambda:start_decoder(send_line)
+
+
+    if doWebSocket:
+        #start decoder
+        #thread.start_new_thread(lambda:start_decoder(send_line),())
+        thread.start_new_thread(mainLooper,())
+
+        factory = WebSocketServerFactory()
+        factory.protocol = APRSServerProtocol
+        reactor.listenTCP(9000, factory)
+        reactor.run()
+    else:
+        mainLooper()
     
 
 main()
