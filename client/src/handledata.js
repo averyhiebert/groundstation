@@ -48,5 +48,5 @@ function handle(data){
     timeIndex += 1;
 
     //tempData = [[[0,10],[2,5],[3,7]]];
-    $.plot($("#placeholder"),[altitudes],{}); 
+    $.plot($("#flotChart"),[altitudes],{}); 
 }
