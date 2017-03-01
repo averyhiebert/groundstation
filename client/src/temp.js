@@ -31,4 +31,24 @@ var currentPositionLayer = new ol.layer.Vector({
   style: iconStyle
 });
 
+var tempPoints = [];
+
+var lineStyle = new ol.style.Style({
+    stroke: new ol.style.Stroke({color: 'rgba(255,0,0,1)', width:3})
+});
+
+var trailSource = new ol.source.Vector({
+    features: [new ol.Feature({ geometry: new ol.geom.LineString(tempPoints),
+                                name: "Trail"
+                              })]
+    });
+var pathLayer = new ol.layer.Vector({
+    source:trailSource,
+    style: lineStyle
+});
+
+
+map.addLayer(pathLayer);
 map.addLayer(currentPositionLayer);
+
+
