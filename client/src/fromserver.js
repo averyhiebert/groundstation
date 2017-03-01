@@ -61,8 +61,8 @@ mainSocket.onmessage = function(event){
             name: "Rocket"
         });
  
-        vectorSource.clear();                //Remove previous markers 
-        vectorSource.addFeature(rocketIcon); //Add the new marker
+        currentPositionSource.clear();                //Remove previous markers 
+        currentPositionSource.addFeature(rocketIcon); //Add the new marker
         
     }//if data not null
 }//on message

@@ -13,7 +13,7 @@ view: new ol.View({
 });
 
 var iconFeatures = [];
-var vectorSource = new ol.source.Vector({features:iconFeatures});
+var currentPositionSource = new ol.source.Vector({features:iconFeatures});
 
 var iconStyle = new ol.style.Style({
   image: new ol.style.Icon( ({
@@ -26,9 +26,9 @@ var iconStyle = new ol.style.Style({
   }))
 });
 
-var vectorLayer = new ol.layer.Vector({
-  source: vectorSource,
+var currentPositionLayer = new ol.layer.Vector({
+  source: currentPositionSource,
   style: iconStyle
 });
 
-map.addLayer(vectorLayer);
+map.addLayer(currentPositionLayer);
