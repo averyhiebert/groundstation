@@ -2,6 +2,11 @@
 var pastLocations = []; //Should be [lon,lat]
 var altitudes = [];     //Should be [time (seconds), alt]
 
+//For now, temporarily during testing, "time" will just be an integer index.
+// Sometime soon I'll make sure a timestamp gets added server-side
+// which can then be converted to "seconds since recording started" here.
+timeIndex = 0;
+
 function handle(data){
     // Show text =================================================
     var label = document.getElementById("datafield");
@@ -39,4 +44,9 @@ function handle(data){
     trailSource.addFeature(newLine); 
 
     // Record altitude for plotting ===============================
+    altitudes.push([timeIndex,data["altitude"]]);
+    timeIndex += 1;
+
+    //tempData = [[[0,10],[2,5],[3,7]]];
+    $.plot($("#placeholder"),[altitudes],{}); 
 }
