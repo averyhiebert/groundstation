@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import json
+import time
 
 def normalize(v):
     norm = np.linalg.norm(v)
@@ -35,6 +36,10 @@ for i in range(3600):
    point["longitude"] = currentLocation[0]
    point["altitude"] = currentAlt
    point["raw"] = "Test data"
+   point["error"] = False
+   point["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+   point["timestamp"] = time.time()*1000  #Gives ms as a floating point.
+
   
    datapoints.append(point) 
 

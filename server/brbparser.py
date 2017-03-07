@@ -1,5 +1,6 @@
 import re
 import json
+import time
 
 #Parse a line of BigRedBee data
 def parseBRB(line):
@@ -22,6 +23,8 @@ def parseBRB(line):
         data["latitude"] = lat
         data["longitude"] = lon
         data["error"] = False
+        data["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+        data["timestamp"] = time.time()*1000  #Gives ms as a floating point.
     else:
         print "Error parsing BRB data"
         data["error"] = True

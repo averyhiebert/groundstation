@@ -19,8 +19,11 @@ from brbparser import parseBRB
 # (TODO: read from config file)
 doWebSocket = True
 doTestFromFile = True
+doLogData = True
 frequency = "144M"
 
+
+datalog = [] #For use when logging data.
 
 #Set up websocket protocol
 latestMessage = "no data"
@@ -61,14 +64,17 @@ def start_decoder(helper):
 #Send a line of data to client
 def send_line(line):
     if len(line) > 0 and line[0] == "[":
+        datapoint = parseBRB(line)
         if doWebSocket:
-            APRSServerProtocol.broadcast_message(parseBRB(line))
+            APRSServerProtocol.broadcast_message(datapoint)
+        logData(datapoint)
         #print parseBRB(line)
-        print line
+        print datapoint
     elif "alt" in line:
         print line
         print strftime("%Y-%m-%d %H:%M:%S\n",localtime())
 
+#Repeatedly broadcast example data from a file.
 def testFromFile(filename):
     f = open(filename)
     s = f.read()
@@ -79,9 +85,23 @@ def testFromFile(filename):
     while True:
         if doWebSocket:
             APRSServerProtocol.broadcast_message(json.dumps(testData[i]))
+        logData(json.dumps(testData[i]))
         print testData[i]
         i = (i + 1) % len(testData)
         time.sleep(1)
+
+#log a data point, if the appropriate flag is set
+def logData(latestData):
+    if doLogData:
+        #The following is, like SUPER inefficient,
+        # but at the scale of data we're using I assume it'll be fine.
+        # (It might be better to append each data point to the existing file,
+        #  but then the resulting file might not be perfect json if the 
+        #  execution of the server gets interrupted.)
+        datalog.append(json.loads(latestData))
+        f = open("log.json","w")
+        f.write(json.dumps(datalog))
+        f.close() 
 
 def main():
     #create and start server
