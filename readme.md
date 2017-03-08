@@ -24,4 +24,5 @@ First start `server/wsserver.py`, and then open `client/index.html` in a web bro
 
 There is some error inherent in each sdr stick (some sort of timing thing, I'm not 100% clear on what it means).  You can find this value using the open-source "Kalibrate" tool, and then use it for the "-p" option when running rtl_fm.  If you don't use an accurate "-p" value, you'll still be able to hear regular FM radio stations just fine, but you'll have little-to-no success decoding APRS.
 
-There are tutorials for how to do this online.  I'll try to find a good one and link it here.
+Part of this tutorial describes the callibration process:
+http://www.algissalys.com/amateur-radio/raspberry-pi-sdr-dongle-aprs-igate
