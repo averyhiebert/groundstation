@@ -1,0 +1,8 @@
+{
+    "doTestFromFile": true, 
+    "haveSDR": false, 
+    "doLogData": true, 
+    "doWebSocket": true,
+
+    "frequency": "432.9M"
+}

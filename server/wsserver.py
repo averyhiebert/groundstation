@@ -15,13 +15,24 @@ from time import localtime, strftime
 
 from brbparser import parseBRB
 
-# Set congfiguration settings
-# (TODO: read from config file)
-doWebSocket = True
-doTestFromFile = True
-haveSDR = False
-doLogData = True
-frequency = "432.9M"
+# Load configuration:
+try:
+    f = open("config.json","r")
+    configuration = json.loads(f.read())
+    f.close()
+
+    doWebSocket = configuration["doWebSocket"]
+    doTestFromFile = configuration["doTestFromFile"]
+    haveSDR = configuration["haveSDR"]
+    doLogData = configuration["doLogData"]
+    frequency = configuration["frequency"]
+except:
+    doWebSocket = True
+    doTestFromFile = True
+    haveSDR = False
+    doLogData = True
+    frequency = "432.9M"
+    
 
 
 datalog = [] #For use when logging data.
@@ -59,7 +70,7 @@ class APRSServerProtocol(WebSocketServerProtocol):
 def start_decoder(helper):
     args = ["bash","./decoder/runtest.sh"]
     if haveSDR:
-        args = ["bash","./decoder/testingtools/decode.sh","432.9M"]
+        args = ["bash","./decoder/testingtools/decode.sh",frequency]
     process = subprocess.Popen(args,stdout=subprocess.PIPE)
     for line in iter(process.stdout.readline,''):
         helper(line.strip())
