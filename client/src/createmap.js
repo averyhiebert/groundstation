@@ -1,4 +1,4 @@
-
+// Create the map =================================================
 var map = new ol.Map({
 target: 'map',
 layers: [
@@ -7,11 +7,12 @@ layers: [
   })
 ],
 view: new ol.View({
-  center: ol.proj.fromLonLat([-123.31,48.463]),
+  center: ol.proj.fromLonLat([-123.31,48.463]), //This is centred on Victoria
   zoom: 12
 })
 });
 
+// Create the rocket icon layer ===================================
 var iconFeatures = [];
 var currentPositionSource = new ol.source.Vector({features:iconFeatures});
 
@@ -31,23 +32,25 @@ var currentPositionLayer = new ol.layer.Vector({
   style: iconStyle
 });
 
-var tempPoints = [];
+
+// Create the "trail" layer ========================================
 
 var lineStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({color: 'rgba(255,0,0,1)', width:3})
 });
 
 var trailSource = new ol.source.Vector({
-    features: [new ol.Feature({ geometry: new ol.geom.LineString(tempPoints),
+    features: [new ol.Feature({ geometry: new ol.geom.LineString([]),
                                 name: "Trail"
                               })]
     });
+
 var pathLayer = new ol.layer.Vector({
     source:trailSource,
     style: lineStyle
 });
 
-
+// Add those layers to the map ====================================
 map.addLayer(pathLayer);
 map.addLayer(currentPositionLayer);
 
