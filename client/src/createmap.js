@@ -55,3 +55,33 @@ map.addLayer(pathLayer);
 map.addLayer(currentPositionLayer);
 
 
+// Add New Mexico Landsat Layer ================================
+
+// (Change these settings to match how you are hosting the service)
+landsatlayer =  new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+        url: 'http://localhost:8080/geoserver/wms',
+        params: {'Layers':'NewMexico:launcharealandsat','TILED':true},
+        projection:'EPSG:3857',
+        serverType:'geoserver'
+    })
+});
+
+map.addLayer(landsatlayer);
+
+
+// For reference: How to add other mapping data ======================
+
+/*
+streetsLayer = new ol.layer.Vector({
+    title: 'Street Centres',
+    source: new ol.source.Vector({
+        url: 'mapdata/streetlines.kml',
+        format: new ol.format.KML()
+    })
+})
+
+map.addLayer(streetsLayer);
+
+// Or use e.g. ol.format.GeoJSON()
+*/
