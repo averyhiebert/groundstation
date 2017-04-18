@@ -9,18 +9,21 @@
       }
 
       .chart{
-        height: 400px;
-        width: 400px;
+        height: 300px;
+        width: 600px;
       }
     </style>
     <script src="libraries/flot/jquery.js"></script>
     <script src="libraries/flot/jquery.flot.js"></script>
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
+    <script src="src/fromserver.js" type="text/javascript"></script>
+    
     <title>UVic Rocketry Ground Station Prototype</title>
   </head>
   <link rel="stylesheet" type="text/css" href="style.css">
   <section class="screenContainer">
-    <div class="rocketTracker">
+    <!-- Class for rocket tracker -->
+    <div class="componentBlock">
       <h2>Rocket Tracker</h2>
       Most recent data: <span id="datafield"></span><br />
       Latitude: <span id="latitude"></span> <br />
@@ -29,11 +32,20 @@
       <div id="map" class="map"></div>
       <script src="src/createmap.js" type="text/javascript"></script>
       <script src="src/handledata.js" type="text/javascript"></script>
-      <script src="src/fromserver.js" type="text/javascript"></script>
     </div>
-    <div class="altitudeChart">
+    <!-- Class for altitude chart -->
+    <div class="componentBlock">
       <h2>Altitude Chart</h2>
-      <div id="flotChart" style="width: 600px; height: 300px"></div>
+      <div id="flotAltitudeChart" style="width: 600px; height: 300px"></div>
     </div>
+  </section>
+  <!-- Second section on page -->
+  <section class="screenContainer">
+  <!-- Class for Speed chart -->
+    <div class="componentBlock">
+      <h2>Speed Chart</h2>
+      <div id="flotSpeedChart" style="width: 600px; height: 300px"></div>
+    </div>
+
   </section>
 </html>
