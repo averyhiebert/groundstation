@@ -3,6 +3,9 @@ var pastLocations = []; //Should be [lon,lat]
 var altitudes = [];     //Should be [time (seconds), alt]
 var tracker = [];       //Used to track points of the Rocket with long, Lat, Alt
 var speed = [];         //Captures the distance between the current point and the last point
+var verticalVelocity = []; 
+
+var t0 = -1;
 
 //For now, temporarily during testing, "time" will just be an integer index.
 // Sometime soon I'll make sure a timestamp gets added server-side
@@ -52,7 +55,18 @@ function handle(data){
     trailSource.addFeature(newLine); 
 
     // Record altitude for plotting ===============================
-    altitudes.push([timeIndex,data["altitude"]]);
+
+    // old:
+    //altitudes.push([timeIndex,data["altitude"]]);
+
+    // new:
+    if (altitudes.length == 0){
+        // Set "start time"
+        t0 = parseFloat(data["timestamp"]);
+    }
+    timediff = (parseFloat(data["timestamp"])-t0)/1000; //Seconds since t0
+    console.log(data["timestamp"] + " " + t0);
+    altitudes.push([timediff,data["altitude"]]);
    
     // Record points of the rocket in $tracker
     // Record the distance between the points in $speed.
