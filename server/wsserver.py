@@ -78,7 +78,16 @@ def start_decoder(helper):
 #Send a line of data to client
 def send_line(line):
     if len(line) > 0 and line[0] == "[":
-        datapoint = parseBRB(line)
+        try:
+            datapoint = parseBRB(line)
+        except:
+            datapoint = {}
+            datapoint["error"] = True
+            datapoint["errorMessage"] = sys.exc_info()[0]
+            datapoint["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+            datapoint["timestamp"] = time.time()*1000  #Gives ms as a floating point.
+            datapoint["raw"] = line
+
         if doWebSocket:
             APRSServerProtocol.broadcast_message(datapoint)
         logData(datapoint)

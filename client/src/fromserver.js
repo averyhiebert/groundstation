@@ -14,7 +14,10 @@ mainSocket.onmessage = function(event){
         console.log("Error parsing JSON");
         return;
     }
-    
-    handle(data);   
+
+    //For now, we ignore data points that have error=true
+    if(!data["error"]){ 
+        handle(data);   
+    }
 }//on message
 
