@@ -19,9 +19,9 @@ function handle(data){
         label.innerHTML = data["raw"]
     }
 
-    document.getElementById("longitude").innerHTML = data["longitude"];
-    document.getElementById("latitude").innerHTML = data["latitude"];
-    document.getElementById("altitude").innerHTML = data["altitude"];
+    document.getElementById("longitude").innerHTML = Math.round(data["longitude"] * 100) / 100;
+    document.getElementById("latitude").innerHTML = Math.round (data["latitude"] * 100) / 100;
+    document.getElementById("altitude").innerHTML = Math.round (data["altitude"] * 100) / 100;
 
     var lat = data["latitude"];
     var lon = data["longitude"];
@@ -40,7 +40,7 @@ function handle(data){
 
     currentPositionSource.clear();                //Remove previous markers 
     currentPositionSource.addFeature(rocketIcon); //Add the new marker
-
+   
     // Add to trail on map ========================================
     pastLocations.push([lon,lat]);
     var points = pastLocations.map(x => ol.proj.fromLonLat(x));
@@ -88,3 +88,5 @@ function handle(data){
     $.plot($("#flotSpeedChart"),[speed],{});
 
 }
+
+//Update map to current position of rocket's lat long

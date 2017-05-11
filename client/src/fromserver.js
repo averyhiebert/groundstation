@@ -15,6 +15,7 @@ mainSocket.onmessage = function(event){
         return;
     }
     
-    handle(data);   
+    handle(data); 
+    updatemappos(data);
 }//on message
 

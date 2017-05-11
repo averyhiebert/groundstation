@@ -36,7 +36,7 @@ var currentPositionLayer = new ol.layer.Vector({
 // Create the "trail" layer ========================================
 
 var lineStyle = new ol.style.Style({
-    stroke: new ol.style.Stroke({color: 'rgba(255,0,0,1)', width:3})
+    stroke: new ol.style.Stroke({color: 'rgba(210,38,48,1)', width:3})
 });
 
 var trailSource = new ol.source.Vector({
@@ -68,6 +68,18 @@ landsatlayer =  new ol.layer.Tile({
 });
 
 map.addLayer(landsatlayer);
+
+//center map on rocket
+function setCenter(lat,lon) {
+    var lonlat = new ol.Coordinate(lon, lat);
+    map.view.setcenter(lonlat);
+}
+
+function updatemappos(data){
+    var lat = data["latitude"];
+    var lon = data["longitude"];
+    setCenter(lat,lon);
+}
 
 
 // For reference: How to add other mapping data ======================
