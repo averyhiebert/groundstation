@@ -59,13 +59,14 @@ var currentPositionLayer = new ol.layer.Vector({
 
 
 // Create the "trail" layer ========================================
+var rocketTrail = new ol.geom.LineString([]);
 
 var lineStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({color: 'rgba(255,0,0,1)', width:3})
 });
 
 var trailSource = new ol.source.Vector({
-    features: [new ol.Feature({ geometry: new ol.geom.LineString([]),
+    features: [new ol.Feature({ geometry: rocketTrail,
                                 name: "Trail"
                               })]
     });

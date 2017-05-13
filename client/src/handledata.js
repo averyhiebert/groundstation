@@ -42,24 +42,10 @@ function handle(data){
     currentPositionSource.addFeature(rocketIcon); //Add the new marker
 
     // Add to trail on map ========================================
-    pastLocations.push([lon,lat]);
-    var points = pastLocations.map(x => ol.proj.fromLonLat(x));
-    var newLine = new ol.Feature({
-        geometry: new ol.geom.LineString(points),
-        name: "Rocket trail"
-    });
-
-    // There's probably an O(1) way to do this, rather than the current O(n),
-    // But O(n) is fine for now.
-    trailSource.clear();
-    trailSource.addFeature(newLine); 
+    rocketTrail.appendCoordinate(ol.proj.fromLonLat([lon,lat]));
 
     // Record altitude for plotting ===============================
 
-    // old:
-    //altitudes.push([timeIndex,data["altitude"]]);
-
-    // new:
     if (altitudes.length == 0){
         // Set "start time"
         t0 = parseFloat(data["timestamp"]);
