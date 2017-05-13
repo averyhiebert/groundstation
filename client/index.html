@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!--Import Libraries/font-->
     <link rel="stylesheet" href="libraries/openlayers/ol.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+      
+    <!--set map/chart styles-->
     <style>
       .map {
         height: 100%;
@@ -24,27 +27,41 @@
         width: 600px;
       }
     </style>
-      <!---For centering at rocket-->
-      <script type='text/javascript' > 
-        var centerlat = 0;
-        var  centerlon =0;
-      </script>
+      
+
+      
     <script src="libraries/flot/jquery.js"></script>
     <script src="libraries/flot/jquery.flot.js"></script>
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
-    <script src="src/fromserver.js" type="text/javascript"></script>
-    <script src="libraries/jquery-3.2.1.min.js"></script>
     
+    <script src="libraries/jquery-3.2.1.min.js"></script>
+
+    <script src="src/fromserver.js" type="text/javascript"></script>
     <title>UVic Rocketry Ground Station Prototype</title>
   </head>
+    
 <body>
   <link rel="stylesheet" type="text/css" href="style.css">
   <section class="screenContainer">
     <!-- Class for rocket tracker -->
     <div class="componentBlock">
-      <div id="map" class="map"></div>
-     <script src="src/handledata.js" type="text/javascript"></script>    
-      <script src="src/createmap.js" type="text/javascript"></script>
+     <div id="map" class="map"></div>
+     <!---Global Variables For centering at rocket-->   
+      <script type='text/javascript' > 
+        var centerlat = 0;
+        var centerlon = 0;
+        var victoria = ol.proj.fromLonLat([-123.31,48.463]);
+        var view = new ol.View({
+            center: victoria,
+            zoom: 12
+        });
+      </script>
+     <!--Load in mapcreator functions first-->
+     <script src="src/createmap.js" type="text/javascript"></script>
+     <!--Then data handling-->
+     <script src="src/handledata.js" type="text/javascript"></script>
+     <!--Then data server communication-->    
+     <script src="src/fromserver.js" type="text/javascript"></script>
      
     </div>
     <!-- Class for altitude chart -->

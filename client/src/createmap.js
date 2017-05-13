@@ -1,15 +1,13 @@
 // Create the map =================================================
+
 var map = new ol.Map({
 target: 'map',
 layers: [
-  new ol.layer.Tile({
+  new ol.layer.Tile({  
     source: new ol.source.OSM()
   })
 ],
-view: new ol.View({
-  center: ol.proj.fromLonLat([-123.31,48.463]), //This is centred on Victoria
-  zoom: 12
-})
+view: view
 });
 
 // Create the rocket icon layer ===================================
@@ -69,18 +67,31 @@ landsatlayer =  new ol.layer.Tile({
 
 map.addLayer(landsatlayer);
 
+//panning utility function
+      function doPan(location) {
+        // pan from the current center
+        var pan = ol.animation.pan({
+          source: map.getView().getCenter()
+        });
+        map.beforeRender(pan);
+        // when we set the new location, the map will pan smoothly to it
+        map.getView().setCenter(location);
+      }
+
 //center map on rocket
-function setCenter(lat,lon) {
-    var lonlat = new ol.Coordinate(lon, lat);
-    map.view.setcenter(lonlat);
+function setnewCenter() {  
+    console.log("entered centering function");
+    console.log(centerlat + " lat ");
+    console.log(centerlon + " lon ");
+    var target = ol.proj.fromLonLat([centerlon,centerlat]);
+    doPan(target);
+   /* Not in Open Layers 3, is in 4
+    view.animate({
+        center: target,
+        duration: 10
+    });
+    */
 }
-
-function updatemappos(data){
-    var lat = data["latitude"];
-    var lon = data["longitude"];
-    setCenter(lat,lon);
-}
-
 
 // For reference: How to add other mapping data ======================
 

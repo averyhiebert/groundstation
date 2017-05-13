@@ -26,6 +26,9 @@ function handle(data){
     var lat = data["latitude"];
     var lon = data["longitude"];
     var alt = data["altitude"];
+    //set global variables to current latlon
+    centerlat = lat;
+    centerlon = lon;
     // Figuring out speed with lon, lat and alt
     var x = alt * Math.cos(lat) * Math.sin(lon);
     var y = alt * Math.sin(lat);
@@ -84,8 +87,10 @@ function handle(data){
     timeIndex += 1;
 
     //tempData = [[[0,10],[2,5],[3,7]]];
+    /*
     $.plot($("#flotAltitudeChart"),[altitudes],{});
     $.plot($("#flotSpeedChart"),[speed],{});
+    */
 
 }
 
