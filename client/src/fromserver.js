@@ -16,7 +16,12 @@ mainSocket.onmessage = function(event){
     }
     
     handle(data); 
-    setnewCenter();
+    //if centering option is turned on using global variable 
+    if (togglecentering === 1) {
+        console.log("Autotacking on!");
+        setnewCenter();
+    }
+    
     
 }//on message
 
