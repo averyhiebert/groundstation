@@ -50,6 +50,7 @@
       <script type='text/javascript' > 
         var centerlat = 0;
         var centerlon = 0;
+        var togglecentering= 0;  
         var victoria = ol.proj.fromLonLat([-123.31,48.463]);
         var view = new ol.View({
             center: victoria,
@@ -80,7 +81,7 @@
     <script>
      $(document).ready(function (){
         var x = document.getElementById('stuff');
-        $(".toggler").on("click", function (){
+        $("btn").on("click", function (){
             if ($(".infoContainer").height() == 0) {
                 $('btn').text("▼");
                $(".infoContainer").stop().animate({height: "300px"});
@@ -105,7 +106,11 @@
 
     </script>
 <section class="toggler">
-    <btn>▼</btn>
+    <btnholder>
+        <locatebtn></locatebtn>
+        <btn>▼</btn>
+        <centerbtn></centerbtn>
+    </btnholder>
     <curralt>Current Alt: <span id="altitude"></span>meters</curralt>
     <latlong>Lat:<span id="latitude"></span> Long:<span id="longitude"></span></latlong>
     </section>
