@@ -14,14 +14,19 @@ mainSocket.onmessage = function(event){
         console.log("Error parsing JSON");
         return;
     }
+
     
-    handle(data); 
-    //if centering option is turned on using global variable 
+
+    
+    //For now, we ignore data points that have error=true
+    if(!data["error"]){ 
+        handle(data);   
+    }
+  
+      //if centering option is turned on using global variable 
     if (togglecentering === 1) {
         console.log("Autotacking on!");
         setnewCenter();
     }
-    
-    
 }//on message
 

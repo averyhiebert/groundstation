@@ -26,12 +26,19 @@ try:
     haveSDR = configuration["haveSDR"]
     doLogData = configuration["doLogData"]
     frequency = configuration["frequency"]
+    doInitialPause = configuration["doInitialPause"]
+    doRepeat = configuration["doRepeat"]
+    playbackSpeed = configuration["playbackSpeed"]
 except:
     doWebSocket = True
     doTestFromFile = True
     haveSDR = False
     doLogData = True
     frequency = "432.9M"
+
+    playbackSpeed = 1
+    doRepeat = True
+    doInitialPause = True
     
 
 
@@ -78,7 +85,16 @@ def start_decoder(helper):
 #Send a line of data to client
 def send_line(line):
     if len(line) > 0 and line[0] == "[":
-        datapoint = parseBRB(line)
+        try:
+            datapoint = parseBRB(line)
+        except:
+            datapoint = {}
+            datapoint["error"] = True
+            datapoint["errorMessage"] = sys.exc_info()[0]
+            datapoint["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+            datapoint["timestamp"] = time.time()*1000  #Gives ms as a floating point.
+            datapoint["raw"] = line
+
         if doWebSocket:
             APRSServerProtocol.broadcast_message(datapoint)
         logData(datapoint)
@@ -95,6 +111,9 @@ def testFromFile(filename):
     f.close()
     testData = json.loads(s)
 
+    if doInitialPause:
+        time.sleep(10)
+
     i = 0
     while True:
         if doWebSocket:
@@ -102,7 +121,10 @@ def testFromFile(filename):
         logData(json.dumps(testData[i]))
         print testData[i]
         i = (i + 1) % len(testData)
-        time.sleep(1)
+        if i == 0 and (not doRepeat):
+            break
+        time.sleep(playbackSpeed)
+        
 
 #log a data point, if the appropriate flag is set
 def logData(latestData):

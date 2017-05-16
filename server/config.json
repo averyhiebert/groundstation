@@ -1,8 +1,12 @@
 {
-    "doTestFromFile": true, 
+    "doTestFromFile": true,
+        "doRepeat": false,
+        "doInitialPause": true,
+        "playbackSpeed": 0.1,
+
     "haveSDR": false, 
-    "doLogData": true, 
+    "doLogData": false, 
     "doWebSocket": true,
 
-    "frequency": "432.9M"
+    "frequency": "432.988M"
 }

@@ -9,31 +9,21 @@ if [ $# -ge 1 ]
 then
   FREQ=$1
 else
-  FREQ=98.5M
+  FREQ=144.39M
 fi
 #For APRS: 432.9M or 144.39M depending on stuff
 
-#Set gain
-if [ $# -ge 2 ]
-then
-  GAIN=$2
-else
-  GAIN=49.6
-fi
-#(I think gain of 7.7 was used when we first successfully decoded something)
-
 #Set ppm error (Find for indivisual stick using Kalibrate)
-if [ $# -ge 3 ]
+if [ $# -ge 2 ]
 then
   PPM=$3
 else
   PPM=93
 fi
 
-rtl_fm -f $FREQ -s 260k -g $GAIN -r 48k -p $PPM - | aplay -r 48k -f S16_LE -t raw -c 1
 
-#Some frequencies to try in Victoria:
-#98.5M, 100.3M, 100.7 FM, 103.1M
+rtl_fm -f $FREQ -s 260k -r 48k -p $PPM - | direwolf -n 1 -r 48000 -b 16 -t 0 -
+
 #APRS frequency: 144.39M
 
 #Supported gain values, for reference:

@@ -10,6 +10,31 @@ layers: [
 view: view
 });
 
+/*
+//Add Victoria openstreetmaps base map.
+victoriaLayer = new ol.layer.Vector({
+    title: 'Street Centres',
+    source: new ol.source.Vector({
+        url: 'mapdata/victoria.osm',
+        projection:'EPSG:3857',
+        format: new ol.format.OSMXML()
+    })
+})
+
+map.addLayer(victoriaLayer);
+*/
+victoriaLayer =  new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+        url: 'http://localhost:8080/geoserver/wms',
+        params: {'Layers':'Victoria:victoriaBW','TILED':true},
+        projection:'EPSG:3857',
+        serverType:'geoserver'
+    })
+});
+
+map.addLayer(victoriaLayer);
+
+
 // Create the rocket icon layer ===================================
 var iconFeatures = [];
 var currentPositionSource = new ol.source.Vector({features:iconFeatures});
@@ -32,13 +57,14 @@ var currentPositionLayer = new ol.layer.Vector({
 
 
 // Create the "trail" layer ========================================
+var rocketTrail = new ol.geom.LineString([]);
 
 var lineStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({color: 'rgba(210,38,48,1)', width:3})
 });
 
 var trailSource = new ol.source.Vector({
-    features: [new ol.Feature({ geometry: new ol.geom.LineString([]),
+    features: [new ol.Feature({ geometry: rocketTrail,
                                 name: "Trail"
                               })]
     });
