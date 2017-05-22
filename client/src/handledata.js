@@ -65,7 +65,8 @@ function handle(data){
 
     if (altitudes.length == 1){
         //Plot for the first time
-        altitudePlot = $.plot($("#flotAltitudeChart"),[altitudes],{});
+        altitudePlot = $.plot($("#flotAltitudeChart"),[altitudes],
+        {crosshair: { mode: "x" }});
     }
  
     //Actually draw the thing

@@ -18,7 +18,7 @@
 }
 .infoContainer {
 	width: 100%;
-    opacity: 0.7;
+    
     margin: 0px !important;
     color: white;
     height: 300px;
@@ -27,7 +27,7 @@
     z-index: 2;
     bottom: 0px;
     left:0;
-    background-color: rgb(0, 46, 93);
+    background-color: rgba(0, 46, 93,0.75);
     font-family: 'Lato', sans-serif;
 }
 .componentBlock {
@@ -122,6 +122,7 @@ curralt{
     left: 0%;
     text-align: left;
     height: inherit;
+    font-size: 150%;
     border-right: solid #000000 1px;
 }
 latlong{
@@ -130,6 +131,7 @@ latlong{
     width: 20%;
     position: absolute;
     right:0%;
+    font-size: 150%;
     text-align: right;
     height: inherit;
     border-right: solid #000000 1px;
@@ -183,6 +185,69 @@ btn:hover {
   text-decoration: none;
   opacity: 1;
   color: #C63527;
+}
+
+#flotAltcontainer {
+    opacity: 0.4;
+    z-index: 2;
+    font-family: 'Lato',sans-serif,italic,bold;
+    font-size:500%;
+    font-style: italic;
+    position: relative;
+    text-align:center;
+    width: 600px;
+    height: 300px;
+    line-height: 250px;
+    left: 0px;
+    float: left;
+}
+
+#flotAltitudeChart{
+    float: left;
+    z-index: 3;
+    position: absolute;
+    left:0px;
+    top:0px;
+    width: 600px;
+    height: 300px;
+    font-size: 100%;
+    opacity: 1;
+    
+}
+
+#flotVeloContainer {
+    opacity: 0.4;
+    z-index: 2;
+    font-family: 'Lato',sans-serif;
+    font-size:500%;
+    font-style: italic;
+    position: relative;
+    text-align:center;
+    float: right;
+    right: 0px;
+    width: 600px;
+    height: 300px;
+    line-height: 250px;
+}
+
+#flotVeloChart {
+    float: right;
+    width: 600px;
+    height: 200px;
+    top:0px;
+    right: 0px;
+    position: absolute;
+    z-index: 3;
+    font-size: 100%;
+    opacity: 1.0;
+}
+.tickLabel { 
+    font-family: 'Lato',sans-serif;
+    font-size: 100% ;
+    color: white;
+    opacity: 1.0;
+    height: 30px;
+    top:0px;
 }
 
 html, body {

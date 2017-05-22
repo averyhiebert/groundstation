@@ -32,6 +32,7 @@
       
     <script src="libraries/flot/jquery.js"></script>
     <script src="libraries/flot/jquery.flot.js"></script>
+    <script src="libraries/flot/jquery.flot.crosshair.js"></script>
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
     
     <!-- <script src="libraries/jquery-3.2.1.min.js"></script>  -->
@@ -129,12 +130,17 @@
     <latlong>Lat:<span id="latitude"></span> Long:<span id="longitude"></span></latlong>
     </section>
   <section class="infoContainer">
-      
-
- <div id="stuff">
-  <h2>Graphs will go Here!</h2>
-  <!-- Class for Speed chart -->
-    <div id="flotAltitudeChart" style="width: 600px; height: 200px"></div>
+     <div id="stuff">
+      <!-- Class/container for Altitude chart -->
+        <div id="flotAltcontainer"> ALTITUDE  </div>
+            <div id="flotAltitudeChart"style="width:600px;height:300px"></div>
+       
+      <!-- Class/container for Velocity chart -->
+         <div id="flotVeloContainer"> VELOCITY
+             <div id="flotVelocityChart" ></div>
+         </div>
+     
+     
     </div>
   </section>
     </body>
