@@ -1,9 +1,9 @@
 //Store data for mapping and plotting
 var pastLocations = []; //Should be [lon,lat]
 var altitudes = [];     //Should be [time (seconds), alt]
+var velocities = [];    //Vertical velocities [s, m/s]
 var tracker = [];       //Used to track points of the Rocket with long, Lat, Alt
 var speed = [];         //Captures the distance between the current point and the last point
-var verticalVelocity = []; 
 var altitudePlot = null;     //The plot object
 
 var t0 = -1;
@@ -51,16 +51,27 @@ function handle(data){
     rocketTrail.appendCoordinate(ol.proj.fromLonLat([lon,lat]));
 
     // Record altitude for plotting ===============================
-
+    // (This bit is quite messy and should be rewritten)
     if (altitudes.length == 0){
         // Set "start time"
         t0 = parseFloat(data["timestamp"]);
     }
-    timediff = (parseFloat(data["timestamp"])-t0)/1000; //Seconds since t0
+  
+    timediff = (parseFloat(data["timestamp"])-t0)/1000.0; //Seconds since t0
     altitudes.push([timediff,data["altitude"]]);
+
+    //Record velocity
+    if(altitudes.length >= 2){
+        prevData = altitudes[altitudes.length-2];
+        deltap = data["altitude"] - prevData[1];
+        //Velocity in metres (or feet?) per second
+        v = deltap / (timediff - prevData[0]);
+        velocities.push([timediff,v]);
+    }
 
     if (altitudes.length > 600){
         altitudes.shift();  //Only show last 10 minutes of data
+        velocities.shift();
     }
 
     if (altitudes.length == 1){
@@ -70,34 +81,17 @@ function handle(data){
     }
  
     //Actually draw the thing
-    altitudePlot.setData([altitudes]);
+    dataSeries = [{
+        label:"Altitude",
+        data:altitudes,
+        color:"#FF0000",
+        yaxis:1},
+        {label:"Velocity",
+        data:velocities,
+        color:"#00FF00",
+        yaxis:2}
+    ]
+    altitudePlot.setData(dataSeries);
     altitudePlot.setupGrid();
     altitudePlot.draw();
-
-    /* TODO: Probably delete
-    // Record points of the rocket in $tracker
-    // Record the distance between the points in $speed.
-    tracker.push(point);
-    if(tracker.length == 1){
-        speed.push([timeIndex,0]);
-    }
-    else{
-        // calculate speed based on tracker
-        var lastPoint = tracker[tracker.length-2];
-        var dist = Math.sqrt(Math.pow(point[0]-lastPoint[0], 2) + Math.pow(point[1]-lastPoint[1], 2) + Math.pow(point[2]-lastPoint[2], 2));
-        speed.push([timeIndex,dist]);
-    }
-
-    timeIndex += 1;
-    */
-
-   
-     /* TODO: probably delete
-    //tempData = [[[0,10],[2,5],[3,7]]];
-    /*
-    $.plot($("#flotAltitudeChart"),[altitudes],{});
-
-    $.plot($("#flotSpeedChart"),[speed],{});
-    */
-
 }
