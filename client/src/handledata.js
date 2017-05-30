@@ -4,9 +4,11 @@ var altitudes = [];     //Should be [time (seconds), alt]
 var velocities = [];    //Vertical velocities [s, m/s]
 var tracker = [];       //Used to track points of the Rocket with long, Lat, Alt
 var speed = [];         //Captures the distance between the current point and the last point
-var altitudePlot = null;     //The plot object
-var velocityPlot = null;
+var altitudePlot = null;//The plot object for altitude
+var velocityPlot = null;//The plot object for velocity
 var t0 = -1;
+var maxalt = 0;         //max altitude value for comparison/display
+var maxvelo =0;         // "  velocity   "    "          "
 
 //timeIndex = 0;
 var legends = $("#flotAltitudeChart .legendLabel");
@@ -16,7 +18,7 @@ legends.each(function () {
 var updateLegendTimeout = null;
 var latestPosition = null;
 
-//For Crosshair data tracking
+//----------------------------------Graph Crosshair Data Display------------------------------
 function updateLegend() {
     updateLegendTimeout = null;
 
@@ -74,7 +76,7 @@ function updateLegend() {
     }
 }
 
-//Data Handing
+//---------------------------------------Data Handing-----------------------------------------
 
 function handle(data) {
     // Show text =================================================
@@ -82,11 +84,13 @@ function handle(data) {
     if (label !== null) {
         label.innerHTML = data["raw"];
     }
-
+    
+    //update current altitude/position text by replacing text in div, and roundings
     document.getElementById("longitude").innerHTML = Math.round(data["longitude"] * 100) / 100;
     document.getElementById("latitude").innerHTML = Math.round(data["latitude"] * 100) / 100;
     document.getElementById("altitude").innerHTML = Math.round(data["altitude"] * 100) / 100;
-
+    
+    //collect these for positioning icon
     var lat = data["latitude"];
     var lon = data["longitude"];
     var alt = data["altitude"]
@@ -125,6 +129,12 @@ function handle(data) {
   
     timediff = (parseFloat(data["timestamp"])-t0)/1000.0; //Seconds since t0
     altitudes.push([timediff,data["altitude"]]);
+    //compare this value and current max alt and change if needed
+    if (data["altitude"] > maxalt) {
+            //display value by replacing div text
+            document.getElementById('maxalt').innerHTML = data["altitude"] +'m';
+            maxalt = data["altitude"];
+        }
 
     //Record velocity
     if(altitudes.length >= 2){
@@ -133,13 +143,20 @@ function handle(data) {
         //Velocity in metres (or feet?) per second
         v = deltap / (timediff - prevData[0]);
         velocities.push([timediff,v]);
+        //compare this value and current  max velocity and change if needed 
+        if (v > maxvelo) {
+            //display value by replacing div text
+            document.getElementById('maxvelo').innerHTML = v+'m/s';
+            maxvelo = v;
+        }
     }
 
     if (altitudes.length > 600){
         altitudes.shift();  //Only show last 10 minutes of data
         velocities.shift();
     }
-//--------------------Graph Creation/update-----------------------------
+    
+//--------------------------------------Graph Creation/updating-------------------------------
     if (altitudes.length == 1) {
         //Plot for the first time
         altitudePlot = $.plot($("#flotAltitudeChart"), [altitudes],
@@ -150,27 +167,25 @@ function handle(data) {
         {crosshair: { mode: "x" }});
     }
 
-    //Actually draw the thing, setting up lines
+    //Set up the graph lines 
     altdataSeries = [{
-        label:"Altitude = 0",
         data:altitudes,
         color:"#F5AA1C",
         yaxis:1}
     ]
     velodataSeries = [{
-        label:"Velocity = ",
         data:velocities,
         color:"#F5AA1C",
         yaxis:1}
     ]
     
-
     //refresh and draw graphs
     altitudePlot.setData(altdataSeries);
     velocityPlot.setData(velodataSeries);
     altitudePlot.setupGrid();
     velocityPlot.setupGrid();
     altitudePlot.draw();
+    
     //Collect and run crosshair value collector on mouseover with delay to ensure no overflow 
      $("#flotAltitudeChart").bind("plothover",  function (event, pos, item) {
         latestPosition = pos;
@@ -179,5 +194,6 @@ function handle(data) {
         if (!updateLegendTimeout)
              updateLegendTimeout = setTimeout(updateLegend, 50);
     });
+    //draw the velocity graph
     velocityPlot.draw();
 }
