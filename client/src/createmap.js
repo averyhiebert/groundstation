@@ -22,7 +22,7 @@ victoriaLayer = new ol.layer.Vector({
 })
 
 map.addLayer(victoriaLayer);
-*/
+
 victoriaLayer =  new ol.layer.Tile({
     source: new ol.source.TileWMS({
         url: 'http://localhost:8080/geoserver/wms',
@@ -33,7 +33,7 @@ victoriaLayer =  new ol.layer.Tile({
 });
 
 map.addLayer(victoriaLayer);
-
+*/
 
 // Create the rocket icon layer ===================================
 var iconFeatures = [];
@@ -82,6 +82,7 @@ map.addLayer(currentPositionLayer);
 // Add New Mexico Landsat Layer ================================
 
 // (Change these settings to match how you are hosting the service)
+/*
 landsatlayer =  new ol.layer.Tile({
     source: new ol.source.TileWMS({
         url: 'http://localhost:8080/geoserver/wms',
@@ -92,6 +93,7 @@ landsatlayer =  new ol.layer.Tile({
 });
 
 map.addLayer(landsatlayer);
+*/
 
 //panning utility function
       function doPan(location) {

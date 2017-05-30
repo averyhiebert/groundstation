@@ -16,9 +16,9 @@
     z-index: 1;
     overflow: hidden;
 }
+
 .infoContainer {
-	width: 100%;
-    
+	width: 100%; 
     margin: 0px !important;
     color: white;
     height: 300px;
@@ -30,6 +30,7 @@
     background-color: rgba(0, 46, 93,0.75);
     font-family: 'Lato', sans-serif;
 }
+
 .componentBlock {
 	margin-left: 0px;
 	padding-left: 0px;
@@ -45,6 +46,7 @@
 	color: white;
 
 }
+
 #stuff {
     overflow:hidden;
     bottom: 0;
@@ -195,7 +197,7 @@ btn:hover {
     font-style: italic;
     position: relative;
     text-align:center;
-    width: 600px;
+    width: 45%;
     height: 300px;
     line-height: 250px;
     left: 0px;
@@ -208,7 +210,7 @@ btn:hover {
     position: absolute;
     left:0px;
     top:0px;
-    width: 600px;
+    width: 45%;
     height: 300px;
     font-size: 100%;
     opacity: 1;
@@ -230,16 +232,16 @@ btn:hover {
     line-height: 250px;
 }
 
-#flotVeloChart {
+#flotVelocityChart {
     float: right;
-    width: 600px;
+    width: 45%;
     height: 200px;
     top:0px;
     right: 0px;
     position: absolute;
     z-index: 3;
     font-size: 100%;
-    opacity: 1.0;
+    opacity: 1;
 }
 .tickLabel { 
     font-family: 'Lato',sans-serif;
@@ -248,6 +250,31 @@ btn:hover {
     opacity: 1.0;
     height: 30px;
     top:0px;
+}
+
+centerdata{
+    width: 10%;
+    position: absolute;
+    z-index: 3;
+    font-family: inherit;
+    font-size: 120%;
+    opacity: 1;
+    text-align: center;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0px;
+}
+
+#selecvelo, #selecalt, #maxalt, #maxvelo {
+    width: 100%;
+    opacity: 0.7;
+    font-style: italic;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 html, body {

@@ -34,7 +34,6 @@
     <script src="libraries/flot/jquery.flot.js"></script>
     <script src="libraries/flot/jquery.flot.crosshair.js"></script>
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
-    
     <!-- <script src="libraries/jquery-3.2.1.min.js"></script>  -->
 
     <!-- <script src="src/fromserver.js" type="text/javascript"></script> -->
@@ -134,12 +133,20 @@
       <!-- Class/container for Altitude chart -->
         <div id="flotAltcontainer"> ALTITUDE  </div>
             <div id="flotAltitudeChart"style="width:600px;height:300px"></div>
+             <centerdata>
+                 Selected Alt.<br>
+                 <div id=selecalt>-----</div>
+                 Selected Velo.<br>
+                 <div id=selecvelo>-----</div>
+                 Max Alt<br>
+                 <div id=maxalt>-----</div>
+                 Max Velo<br>
+                 <div id=maxvelo>-----</div>
+                </centerdata>
        
       <!-- Class/container for Velocity chart -->
-         <div id="flotVeloContainer"> VELOCITY
+         <div id="flotVeloContainer"> VELOCITY</div>
              <div id="flotVelocityChart" style="width:600px;height:300px"></div>
-         </div>
-     
      
     </div>
   </section>
