@@ -2,11 +2,13 @@
 var pastLocations = []; //Should be [lon,lat]
 var altitudes = [];     //Should be [time (seconds), alt]
 var velocities = [];    //Vertical velocities [s, m/s]
-var tracker = [];       //Used to track points of the Rocket with long, Lat, Alt
-var speed = [];         //Captures the distance between the current point and the last point
+
 var altitudePlot = null;//The plot object for altitude
 var velocityPlot = null;//The plot object for velocity
-var t0 = -1;
+
+var t0 = -1;            //The time to use as t_0
+var a0 = -1;            //The altitude to use as ground level
+
 var maxalt = 0;         //max altitude value for comparison/display
 var maxvelo =0;         // "  velocity   "    "          "
 
@@ -76,7 +78,7 @@ function updateLegend() {
     }
 }
 
-//---------------------------------------Data Handing-----------------------------------------
+//------------------------Data Handing---------------------------------------
 
 function handle(data) {
     // Show text =================================================
@@ -86,8 +88,8 @@ function handle(data) {
     }
     
     //update current altitude/position text by replacing text in div, and roundings
-    document.getElementById("longitude").innerHTML = Math.round(data["longitude"] * 100) / 100;
-    document.getElementById("latitude").innerHTML = Math.round(data["latitude"] * 100) / 100;
+    document.getElementById("longitude").innerHTML = Math.round(data["longitude"] * 10000) / 10000;
+    document.getElementById("latitude").innerHTML = Math.round(data["latitude"] * 10000) / 10000;
     document.getElementById("altitude").innerHTML = Math.round(data["altitude"] * 100) / 100;
     
     //collect these for positioning icon
@@ -99,14 +101,6 @@ function handle(data) {
     centerlat = lat;
     centerlon = lon;
 
-
-    /* TODO: Probably delete
-    // Figuring out speed with lon, lat and alt
-    var x = alt * Math.cos(lat) * Math.sin(lon);
-    var y = alt * Math.sin(lat);
-    var z = alt * Math.cos(lat) * Math.sin(lon);
-    var point = [x,y,z];
-    */
 
     // Display current position on map ============================
     var rocketIcon = new ol.Feature({
