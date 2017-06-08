@@ -119,34 +119,40 @@ function handle(data) {
     if (altitudes.length == 0){
         // Set "start time"
         t0 = parseFloat(data["timestamp"]);
+        a0 = parseFloat(data["altitude"]);
     }
+    var adjustedAlt = data["altitude"] - a0;
   
-    timediff = (parseFloat(data["timestamp"])-t0)/1000.0; //Seconds since t0
-    altitudes.push([timediff,data["altitude"]]);
+    var timediff = (parseFloat(data["timestamp"])-t0)/1000.0; //Seconds since t0
+    altitudes.push([timediff,adjustedAlt]);
     //compare this value and current max alt and change if needed
-    if (data["altitude"] > maxalt) {
+    if (adjustedAlt > maxalt) {
             //display value by replacing div text
-            document.getElementById('maxalt').innerHTML = data["altitude"] +'m';
-            maxalt = data["altitude"];
+            document.getElementById('maxalt').innerHTML = adjustedAlt +'m';
+            maxalt = adjustedAlt;
         }
 
     //Record velocity
     if(altitudes.length >= 2){
-        prevData = altitudes[altitudes.length-2];
-        deltap = data["altitude"] - prevData[1];
+        var prevData = altitudes[altitudes.length-2];
+        var deltap = adjustedAlt - prevData[1];
         //Velocity in metres (or feet?) per second
-        v = deltap / (timediff - prevData[0]);
-        velocities.push([timediff,v]);
-        //compare this value and current  max velocity and change if needed 
-        if (v > maxvelo) {
-            //display value by replacing div text
-            document.getElementById('maxvelo').innerHTML = v+'m/s';
-            maxvelo = v;
+        var recentInterval  = timediff - prevData[0];
+        if(recentInterval > 0.025){
+            //(if the interval is too small, probably a duplicate value)
+            var v = deltap / recentInterval;
+            velocities.push([timediff,v]);
+            //compare this value and current  max velocity and change if needed 
+            if (v > maxvelo) {
+                //display value by replacing div text
+                document.getElementById('maxvelo').innerHTML = v+'m/s';
+                maxvelo = v;
+            }
         }
     }
 
-    if (altitudes.length > 600){
-        altitudes.shift();  //Only show last 10 minutes of data
+    if (altitudes.length > 1200){
+        altitudes.shift();  //Only show last 20 minutes of data
         velocities.shift();
     }
     
