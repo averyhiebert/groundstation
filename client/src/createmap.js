@@ -1,39 +1,39 @@
+/*
+Dependencies:
+OpenLayers is required (ideally 4.1.1 or later).
+Also, there should be an array loaded somewhere 
+    called configuredWMSLayers, in the following format:
+
+    [
+    {url: 'http://localhost:8080/geoserver/wms',
+     params: {'Layers':'NewMexico:launcharealandsat','TILED':true}}
+     , (next entry, and so on...)
+    ];
+
+Currently, this is in the file config/configWMS.js
+*/
+
+
 // Create the map =================================================
 
 var map = new ol.Map({
-target: 'map',
-layers: [
-  new ol.layer.Tile({  
-    source: new ol.source.OSM()
-  })
-],
-view: view
+    target: 'map',
+    layers: [
+      new ol.layer.Tile({  
+        source: new ol.source.OSM()
+      })
+    ],
+    view: view
 });
 
-/*
-//Add Victoria openstreetmaps base map.
-victoriaLayer = new ol.layer.Vector({
-    title: 'Street Centres',
-    source: new ol.source.Vector({
-        url: 'mapdata/victoria.osm',
-        projection:'EPSG:3857',
-        format: new ol.format.OSMXML()
-    })
-})
-
-map.addLayer(victoriaLayer);
-
-victoriaLayer =  new ol.layer.Tile({
-    source: new ol.source.TileWMS({
-        url: 'http://localhost:8080/geoserver/wms',
-        params: {'Layers':'Victoria:victoriaBW','TILED':true},
-        projection:'EPSG:3857',
-        serverType:'geoserver'
-    })
+// Add all configured WMS layers ==================================
+configuredWMSLayers.forEach(function(layerInfo){
+    var newLayer = new ol.layer.Tile({
+        source: new ol.source.TileWMS(layerInfo)
+    });
+    map.addLayer(newLayer);
 });
 
-map.addLayer(victoriaLayer);
-*/
 
 // Create the rocket icon layer ===================================
 var iconFeatures = [];
@@ -79,32 +79,18 @@ map.addLayer(pathLayer);
 map.addLayer(currentPositionLayer);
 
 
-// Add New Mexico Landsat Layer ================================
 
-// (Change these settings to match how you are hosting the service)
-/*
-landsatlayer =  new ol.layer.Tile({
-    source: new ol.source.TileWMS({
-        url: 'http://localhost:8080/geoserver/wms',
-        params: {'Layers':'NewMexico:launcharealandsat','TILED':true},
-        projection:'EPSG:3857',
-        serverType:'geoserver'
-    })
-});
-
-map.addLayer(landsatlayer);
-*/
 
 //panning utility function
-      function doPan(location) {
-        // pan from the current center
-        var pan = ol.animation.pan({
-          source: map.getView().getCenter()
-        });
-        map.beforeRender(pan);
-        // when we set the new location, the map will pan smoothly to it
-        map.getView().setCenter(location);
-      }
+function doPan(location) {
+    // pan from the current center
+    var pan = ol.animation.pan({
+      source: map.getView().getCenter()
+    });
+    map.beforeRender(pan);
+    // when we set the new location, the map will pan smoothly to it
+    map.getView().setCenter(location);
+}
 
 //center map on rocket
 function setnewCenter() {  
@@ -121,18 +107,3 @@ function setnewCenter() {
     */
 }
 
-// For reference: How to add other mapping data ======================
-
-/*
-streetsLayer = new ol.layer.Vector({
-    title: 'Street Centres',
-    source: new ol.source.Vector({
-        url: 'mapdata/streetlines.kml',
-        format: new ol.format.KML()
-    })
-})
-
-map.addLayer(streetsLayer);
-
-// Or use e.g. ol.format.GeoJSON()
-*/
