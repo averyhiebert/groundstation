@@ -94,7 +94,7 @@
         var x = document.getElementById('stuff');
         $("btn").on("click", function (){
             if ($(".infoContainer").height() == 0) {
-                $('btn').text("▼");
+                $('btn').text("Less");
                $(".infoContainer").stop().animate({height: "300px"});
                //$(".screenContainer").animate({height: "400px"});
                 //$(".map").animate({height: "400px"});
@@ -108,7 +108,7 @@
              //  $(".screenContainer").animate({height: "700px"});
               // $(".map").animate({height: "700px"});
                 x.style.display = 'none';
-                $('btn').text("▲");
+                $('btn').text("More");
                 $(".toggler").stop().animate({bottom:"0"});
                 $(".toggler").fadeTo("fast",1);
                }
@@ -120,7 +120,7 @@
     <!--Buttons for client actions-->
     <btnholder>
         <locatebtn onclick="setnewCenter()"></locatebtn>
-        <btn>▼</btn>
+        <btn class="showHideBtn">Less</btn>
         <centerbtn onclick="toggleTrack()"></centerbtn>
     </btnholder>
     
