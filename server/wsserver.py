@@ -137,14 +137,10 @@ def testFromFile(filename):
 #log a data point, if the appropriate flag is set
 def logData(latestData):
     if doLogData:
-        #The following is, like SUPER inefficient,
-        # but at the scale of data we're using I assume it'll be fine.
-        # (It might be better to append each data point to the existing file,
-        #  but then the resulting file might not be perfect json if the 
-        #  execution of the server gets interrupted.)
-        datalog.append(json.loads(latestData))
-        f = open("log.json","w")
-        f.write(json.dumps(datalog))
+        #Stored as a comma-separated list of JSON objects,
+        # which is not valid JSON but can easily be converted into a JSON list.
+        f = open("log.json","a")
+        f.write(latestData + ",\n")
         f.close() 
 
 def main():
