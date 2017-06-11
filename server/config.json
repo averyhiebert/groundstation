@@ -1,12 +1,14 @@
 {
-    "doTestFromFile": true,
+    "doTestFromFile": false,
         "doRepeat": false,
         "doInitialPause": true,
         "playbackSpeed": 0.1,
 
     "haveSDR": false, 
-    "doLogData": false, 
+    "doLogData": true, 
     "doWebSocket": true,
 
-    "frequency": "432.988M"
+    "frequency": "432.988M",
+    "callsign": "***REMOVED***",
+    "filterCallsign": true
 }

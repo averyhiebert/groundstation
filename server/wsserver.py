@@ -29,6 +29,8 @@ try:
     doInitialPause = configuration["doInitialPause"]
     doRepeat = configuration["doRepeat"]
     playbackSpeed = configuration["playbackSpeed"]
+    callsign = configuration["callsign"]
+    filterCallsign = configuration["filterCallsign"]
 except:
     doWebSocket = True
     doTestFromFile = True
@@ -39,6 +41,8 @@ except:
     playbackSpeed = 1
     doRepeat = True
     doInitialPause = True
+    callsign = "INVALID"
+    filterCallsign = False
     
 
 
@@ -84,6 +88,10 @@ def start_decoder(helper):
 
 #Send a line of data to client
 def send_line(line):
+    # If filtering is enabled, ignore data from wrong callsign.
+    if(filterCallsign and callsign not in line):
+        return
+
     if len(line) > 0 and line[0] == "[":
         try:
             datapoint = parseBRB(line)
