@@ -2,7 +2,7 @@
     "doTestFromFile": true,
         "doRepeat": false,
         "doInitialPause": true,
-        "playbackSpeed": 0.1,
+        "playbackSpeed": 1,
 
     "haveSDR": false, 
     "doLogData": true, 
