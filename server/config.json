@@ -1,5 +1,5 @@
 {
-    "doTestFromFile": false,
+    "doTestFromFile": true,
         "doRepeat": false,
         "doInitialPause": true,
         "playbackSpeed": 0.1,
@@ -8,7 +8,7 @@
     "doLogData": true, 
     "doWebSocket": true,
 
-    "frequency": "432.988M",
+    "frequency": "433.00M",
     "callsign": "***REMOVED***",
-    "filterCallsign": true
+    "filterCallsign": false
 }
