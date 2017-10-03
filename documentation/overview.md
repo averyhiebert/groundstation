@@ -38,7 +38,7 @@ transmissions - for example, it can't be placed in a carbon fibre tube.
 
 The receiver on the ground station should be a Software Defined Radio (SDR) stick similar to the
 Realtek RTL2838 (which we use).  [Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/) 
-is a list of possibly compatible hardware.  This is sessentially a little USB dongle, originally
+is a list of possibly compatible hardware.  This is essentially a little USB dongle, originally
 designed for receiving digital TV, that can also receive a variety of radio frequencies.
 
 The SDR stick should be attached to an antenna.  Most will come with a small antenna that works fine
