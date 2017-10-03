@@ -1,4 +1,7 @@
-# UVic Rocketry Ground Station Software (Work-In-Progress)
+# UVic Rocketry Ground Station Software (Proof-of-Concept)
+This readme describes basic setup information.  For a more in-depth description of the system, see the `documentation` directory.
+
+This software was succesfully used to recover two rockets flown by the University of Victoria at the Spaceport America Cup in 2017.  That being said, this is only intended to be a proof-of-concept, preceding work on a more professionaly-designed finished program.
 
 ## OS & Hardware Recommendations:
 
@@ -8,9 +11,9 @@ You'll also need an SDR stick compatible with rtl-sdr.  We've been using the Rea
 
 ## Installation:
 
-Install dependencies as described in "installation.txt" (or try running that file as a script if you're feeling lucky).
+Install dependencies as described in `documentation/installation.txt` (or try running that file as a script if you're feeling lucky).
 
-If you're only interested in testing the GUI and not the decoding components, some of the dependencies will not be necessary.  More information can be found in the "installation.txt" file.
+If you're only interested in testing the GUI and not the decoding components, some of the dependencies will not be necessary.  More information can be found in the `installation.txt` file.
 
 ## Testing Dependencies:
 
