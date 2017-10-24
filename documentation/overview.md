@@ -9,8 +9,6 @@ document can explain more-or-less what all the components are and how they conne
  2. Hardware
  3. Decoding and Demodulation
  4. Server
-   - Configuration Options
-   - Server Behaviour
  5. Client
  6. Offline Mapping (optional)
 
@@ -145,9 +143,8 @@ velocity of the rocket over time.
 
 The map uses the [OpenLayers](https://openlayers.org/) library, and can connect to a 
 WMS service to use as a base map  If
-connected to the internet, it will use [OpenStreetMap](https://www.openstreetmap.org) data.  
-Other services can be configured in
-the file `client/config/configWMS.js`.
+connected to the internet, it will use [OpenStreetMap](https://www.openstreetmap.org) data. Other 
+services can be configured in the file `client/config/configWMS.js`.
 
 Every time a new data point is received from the server via the websocket connection, the location
 of the rocket on the map (represented by a rocket icon) will be updated, and the rocket's new 
@@ -165,10 +162,10 @@ visual glitch at certain screen sizes that causes it to become mostly hidden beh
 
 ## 6. Offline Mapping
 
-The client can be configured to use a WMS service as a base map.  In the event that an internet connection
-is not available at launch, an offline base map can be provided by running a WMS service locally.  We did
-this using [GeoServer](http://geoserver.org/), an open-source Java server for GIS data.  A description
-of how to obtain data for your launch site and set up a WMS service using GeoServer is probably beyond
-the scope of this documentation.
+The client can be configured to use a WMS service as a base map.  If an internet connection will not be
+available at launch, an offline base map can be provided by running a WMS service locally.  We did
+this using [GeoServer](http://geoserver.org/), an open-source Java server for GIS data.  Unfortunately, 
+a description of how to obtain data for your launch site and set up a WMS service using 
+GeoServer is probably beyond the scope of this documentation.
 
 
