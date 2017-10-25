@@ -29,6 +29,8 @@ try:
     doInitialPause = configuration["doInitialPause"]
     doRepeat = configuration["doRepeat"]
     playbackSpeed = configuration["playbackSpeed"]
+    callsign = configuration["callsign"]
+    filterCallsign = configuration["filterCallsign"]
 except:
     doWebSocket = True
     doTestFromFile = True
@@ -39,6 +41,8 @@ except:
     playbackSpeed = 1
     doRepeat = True
     doInitialPause = True
+    callsign = "INVALID"
+    filterCallsign = False
     
 
 
@@ -84,6 +88,10 @@ def start_decoder(helper):
 
 #Send a line of data to client
 def send_line(line):
+    # If filtering is enabled, ignore data from wrong callsign.
+    if(filterCallsign and callsign not in line):
+        return
+
     if len(line) > 0 and line[0] == "[":
         try:
             datapoint = parseBRB(line)
@@ -129,14 +137,10 @@ def testFromFile(filename):
 #log a data point, if the appropriate flag is set
 def logData(latestData):
     if doLogData:
-        #The following is, like SUPER inefficient,
-        # but at the scale of data we're using I assume it'll be fine.
-        # (It might be better to append each data point to the existing file,
-        #  but then the resulting file might not be perfect json if the 
-        #  execution of the server gets interrupted.)
-        datalog.append(json.loads(latestData))
-        f = open("log.json","w")
-        f.write(json.dumps(datalog))
+        #Stored as a comma-separated list of JSON objects,
+        # which is not valid JSON but can easily be converted into a JSON list.
+        f = open("log.json","a")
+        f.write(latestData + ",\n")
         f.close() 
 
 def main():

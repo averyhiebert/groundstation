@@ -34,6 +34,9 @@
     <script src="libraries/flot/jquery.flot.js"></script>
     <script src="libraries/flot/jquery.flot.crosshair.js"></script>
     <script src="libraries/openlayers/ol.js" type="text/javascript"></script>
+
+    <!-- Load map configuration --!>
+    <script src="config/configWMS.js" type="text/javascript"></script>
     <!-- <script src="libraries/jquery-3.2.1.min.js"></script>  -->
 
     <!-- <script src="src/fromserver.js" type="text/javascript"></script> -->
@@ -53,8 +56,9 @@
         var centerlon = 0;
         var togglecentering= 0;  
         var victoria = ol.proj.fromLonLat([-123.31,48.463]);
+        var launchSite = ol.proj.fromLonLat([-106.91161,32.94661]);
         var view = new ol.View({
-            center: victoria,
+            center: launchSite,
             zoom: 12
         });
       </script>
@@ -94,7 +98,7 @@
         var x = document.getElementById('stuff');
         $("btn").on("click", function (){
             if ($(".infoContainer").height() == 0) {
-                $('btn').text("▼");
+                $('btn').text("Less");
                $(".infoContainer").stop().animate({height: "300px"});
                //$(".screenContainer").animate({height: "400px"});
                 //$(".map").animate({height: "400px"});
@@ -108,7 +112,7 @@
              //  $(".screenContainer").animate({height: "700px"});
               // $(".map").animate({height: "700px"});
                 x.style.display = 'none';
-                $('btn').text("▲");
+                $('btn').text("More");
                 $(".toggler").stop().animate({bottom:"0"});
                 $(".toggler").fadeTo("fast",1);
                }
@@ -120,7 +124,7 @@
     <!--Buttons for client actions-->
     <btnholder>
         <locatebtn onclick="setnewCenter()"></locatebtn>
-        <btn>▼</btn>
+        <btn class="showHideBtn">Less</btn>
         <centerbtn onclick="toggleTrack()"></centerbtn>
     </btnholder>
     
