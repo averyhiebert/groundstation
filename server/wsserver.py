@@ -89,8 +89,12 @@ def start_decoder(helper):
 #Send a line of data to client
 def send_line(line):
     # If filtering is enabled, ignore data from wrong callsign.
-    if(filterCallsign and callsign not in line):
-        return
+    try:
+        if(filterCallsign and callsign not in line):
+            return
+    except:
+        return # When BRB first establishes GPS lock, an unparseable message is received.
+
 
     if len(line) > 0 and line[0] == "[":
         try:
