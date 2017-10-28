@@ -45,8 +45,8 @@ var iconStyle = new ol.style.Style({
     anchorXUnits: 'fraction',
     anchorYUnits: 'fraction',
     opacity: 1.0,
-    scale: 0.008,
-    src: 'images/rocket.png'
+    scale: 0.05,
+    src: 'images/arrow.png'
   }))
 });
 
