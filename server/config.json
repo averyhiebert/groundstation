@@ -9,6 +9,6 @@
     "doWebSocket": true,
 
     "frequency": "433.00M",
-    "callsign": "***REMOVED***",
+    "callsign": "YOURCALLSIGN",
     "filterCallsign": false
 }
