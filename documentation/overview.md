@@ -142,7 +142,7 @@ The client has two main features: a map, and a display including plots of altitu
 velocity of the rocket over time.
 
 The map uses the [OpenLayers](https://openlayers.org/) library, and can connect to a 
-WMS service to use as a base map  If
+WMS service to use as a base map.  If
 connected to the internet, it will use [OpenStreetMap](https://www.openstreetmap.org) data. Other 
 services can be configured in the file `client/config/configWMS.js`.
 
