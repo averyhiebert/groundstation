@@ -147,7 +147,7 @@ connected to the internet, it will use [OpenStreetMap](https://www.openstreetmap
 services can be configured in the file `client/config/configWMS.js`.
 
 Every time a new data point is received from the server via the websocket connection, the location
-of the rocket on the map (represented by a rocket icon) will be updated, and the rocket's new 
+of the rocket on the map (represented by a triangular icon) will be updated, and the rocket's new 
 location will be added to the red trail representing the rocket's path so far.  Clicking on the magnifying
 glass icon will cause the map to automatically pan and zoom to the rocket's current position.
 
@@ -157,8 +157,7 @@ displayed in the altitude and velocity plots.  The altitude is readjusted to mea
 ground level, where "ground level" is the altitude of the first data point received.
 Vertical velocity is calculated from the altitude data.
 
-The current altitude of the rocket should always display above the altitude chart, but there is a known
-visual glitch at certain screen sizes that causes it to become mostly hidden behind the chart.
+The current altitude of the rocket should always display above the altitude chart.
 
 ## 6. Offline Mapping
 

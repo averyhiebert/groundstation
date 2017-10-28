@@ -1,4 +1,4 @@
-# INSTALLATION INSTRUCTIONS
+# INSTALLATION INSTRUCTIONS (for Ubuntu)
 # (You could try running this as a script, even)
 # A list of everything I had to do to get the ground station so far working
 
@@ -22,6 +22,7 @@ sudo apt-get install python-pip python-dev build-essential # Install pip to get 
 sudo pip install --upgrade pip
 pip install autobahn[twisted]          # For WebSockets.
 
-# Chromium is optional; There's an "app" mode in it that I plan to use.
+# Chromium browser is optional; There's an "app" mode in it that you might want to use
+#  if you want the application to look more like a native app rather than a webpage.
 sudo apt-get install chromium-browser
 
