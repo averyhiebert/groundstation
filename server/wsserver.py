@@ -45,11 +45,7 @@ except:
     filterCallsign = False
     
 
-
-datalog = [] #For use when logging data.
-
 #Set up websocket protocol
-latestMessage = "no data"
 connections = list()
 class APRSServerProtocol(WebSocketServerProtocol):
 
@@ -169,5 +165,5 @@ def main():
     else:
         mainLooper()
     
-
-main()
+if __name__=="__main__":
+    main()

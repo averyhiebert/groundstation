@@ -2,7 +2,7 @@ import re
 import json
 import time
 
-#Parse a line of BigRedBee data
+#Parse a line of APRS data from the Big Red Bee board
 def parseBRB(line):
     data = {}
     data["raw"] = line
@@ -10,7 +10,6 @@ def parseBRB(line):
     latregex = "(?P<lat1>\d{2})(?P<lat2>[0-9.]{5})(?P<latsign>[NS])"
     lonregex = "(?P<lon1>\d{3})(?P<lon2>[0-9.]{5})(?P<lonsign>[WE])"
     altregex = "A=(?P<alt>\d*)"
-    regex = latregex + ".*?" + lonregex + ".?" + altregex
     regex = latregex + ".*?" + lonregex + ".*?" + altregex
     reg = re.compile(regex)
     m = re.search(regex,line)

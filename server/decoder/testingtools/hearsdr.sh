@@ -22,7 +22,7 @@ else
 fi
 #(I think gain of 7.7 was used when we first successfully decoded something)
 
-#Set ppm error (Find for indivisual stick using Kalibrate)
+#Set ppm error (Find for individual stick using Kalibrate)
 if [ $# -ge 3 ]
 then
   PPM=$3
