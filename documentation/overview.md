@@ -1,8 +1,10 @@
 # Ground Station System Documentation
 
-This ground station software was developed as a proof-of-concept and an exploration of the possibilites
-for an SDR-based ground station.  As such, the implementation is a bit messy.  Hopefully this
-document can explain more-or-less what all the components are and how they connect.
+This ground station software was developed as a proof-of-concept and 
+an exploration of the possibilites for an SDR-based ground station.  
+As such, the implementation is a bit messy.  Hopefully this
+document can explain more-or-less what all the components are and how 
+they connect.
 
 ## Contents
  1. Overview
@@ -14,66 +16,86 @@ document can explain more-or-less what all the components are and how they conne
 
 ## 1. Overview
 
-The UVic Rocketry Ground Station is used to display live telemetry data (transmitted by
-an off-the-shelf "BigRedBee" board) during a rocket's flight, allowing us to find the rocket
-(or its wreckage) after it lands, as well as identifying parachute deployment and other stages
-in the rocket's flight.  The software supports location tracking on a map, live data logging, and
-live visualization of altitude and vertical velocity.  Offline use is also supported.
+The UVic Rocketry Ground Station is used to display live telemetry 
+data (transmitted by an off-the-shelf "BigRedBee" board) during a rocket's 
+flight, allowing us to find the rocket
+(or its wreckage) after it lands, as well as identifying parachute 
+deployment and other stages in the rocket's flight.  The software 
+supports location tracking on a map, live data logging, and
+live visualization of altitude and vertical velocity.  Offline use is 
+also supported.
 
-During operation, telemetry data transmitted from a BigRedBee board using the APRS protocol is
-received by a software defined radio.  The data is demodulated and decoded by open-source software
-`rtl_fm` and `direwolf`.  The output from these programs is then read by a python server, which
-both records the data and makes it available to a client-side webapp via a web socket.
+During operation, telemetry data transmitted from a BigRedBee board 
+using the APRS protocol is received by a software defined radio.  The 
+data is demodulated and decoded by open-source software
+`rtl_fm` and `direwolf`.  The output from these programs is then 
+read by a python server, which
+both records the data and makes it available to a client-side webapp 
+via a web socket.
 
-The client webapp receives frames of telemetry data from the server and uses this information to
-display the rocket on an OpenLayers map, which can be made to work offline.  Altitude data is
-also plotted over time (using the Flot library), along with vertical acceleration data which
+The client webapp receives frames of telemetry data from the 
+server and uses this information to
+display the rocket on an OpenLayers map, which can be made to 
+work offline.  Altitude data is also plotted over time (using the 
+Flot library), along with vertical velocity data which
 is useful for determining the flight state of the rocket.
 
 ## 2. Hardware
 
-Besides a computer to run the ground station software, three main hardware componnets are necessary:
-the transmitter on the rocket, the software defined radio (SDR) stick, and a suitable antenna.
+Besides a computer to run the ground station software, three main 
+hardware componnets are necessary: the transmitter on the rocket, the 
+software defined radio (SDR) stick, and a suitable antenna.
 
-The transmitter on the rocket is a commercial off-the-shelf tracking unit sold by 
-[BigRedBee](http://www.bigredbee.com/), with a suitable antenna, battery, and the like.  
-This obviously needs to be placed somewhere that isn't blocked by materials that are opaque to radio
-transmissions - for example, it can't be placed in a carbon fibre tube.
+The transmitter on the rocket is a commercial off-the-shelf tracking unit 
+sold by [BigRedBee](http://www.bigredbee.com/), with a suitable antenna, 
+battery, and the like.  
+This obviously needs to be placed somewhere on the rocket that isn't blocked by 
+materials that are opaque to radio transmissions - for example, it can't 
+be placed in a carbon fibre tube.
 
-The receiver on the ground station should be a Software Defined Radio (SDR) stick similar to the
-Realtek RTL2838 (which we use).  [Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/) 
-is a list of possibly compatible hardware.  This is essentially a little USB dongle, originally
-designed for receiving digital TV, that can also receive a variety of radio frequencies.
+The receiver on the ground station should be a Software Defined Radio (SDR) 
+stick similar to the Realtek RTL2838 (which we use).  
+[Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/) 
+is a list of possibly compatible hardware.  This is essentially a 
+little USB dongle, designed for receiving digital TV, that can also 
+receive a variety of radio frequencies.
 
-The SDR stick should be attached to an antenna.  Most will come with a small antenna that works fine
-at short-to-medium ranges.  We haven't tested it in flight, instead using an antenna from a handheld
-BaoFeng radio, but other solutions may also work.  Hopefully someone with more electrical knowledge can
+The SDR stick should be attached to an antenna.  
+Most will come with a small antenna that works fine
+at short-to-medium ranges.  We haven't tested it in flight, 
+instead using an antenna from a handheld BaoFeng radio, but other 
+solutions may also work.  Hopefully someone with more electrical knowledge can
 expand on this section of the documentation in the future.
 
-A final note: although this software can be run on pretty much any computer, environmental conditions
-at some launch events (e.g. extreme heat at the Spaceport America Cup) might have adverse effects on
-regular laptops, so it could be worth designing custom ground station hardware.  UVic Rocketry's ground 
-station consists of a Wandboard Quad board housed in a Pelican case, and worked fine in desert conditions.
+A final note: although this software can be run on pretty much any computer, 
+environmental conditions at some launch events (e.g. dust and extreme heat at 
+the Spaceport America Cup) might have adverse effects on
+regular laptops, so it could be worth designing custom ground station hardware.  UVic Rocketry's ground station consists of a Wandboard Quad board 
+housed in a Pelican case, and worked fine for us in desert conditions.
 
 ## 3. Decoding and Demodulation
 
-The signal received from the BigRedBee board is transmitted once per second (or at another rate, depending
-on configuration) using the APRS amateur radio protocol.  This needs to be received, demodulated, and
-decoded by the ground station. The system uses [rtl\_fm](http://kmkeen.com/rtl-demod-guide/), part of the 
-rtl-sdr project, to demodulate the signal.  The output from `rtl_fm`, which is essentiall raw audio data, is
-piped into [direwolf](https://github.com/wb2osz/direwolf), which decodes the APRS packets into a
-string containing latitude and longitude (in "degrees, decimal minutes" format), as well as altitude and
-a descriptive string.  The exact format and content of the data received from the BigRedBee depends on how
-the board is configured.  More information about this may be added to this documentation in the future.
+The signal received from the BigRedBee board is transmitted once per 
+second (or at another rate, depending on configuration) using the APRS digital 
+radio protocol.  This needs to be received, demodulated, and
+decoded by the ground station. The system uses 
+[rtl\_fm](http://kmkeen.com/rtl-demod-guide/), part of the 
+rtl-sdr project, to demodulate the signal.  The output from `rtl_fm`, 
+which is essentiall raw audio data, is piped into 
+[direwolf](https://github.com/wb2osz/direwolf), which decodes the APRS packets 
+into a string containing latitude and longitude (in "degrees, decimal minutes" 
+format), as well as altitude.  The exact format and content of the 
+data received from the BigRedBee depends on how the board is configured.  
+More information about this may be added to this documentation in the future.
 
 ## 4. Server
 
-The python server (`server/wsserver.py`) starts the demodulator and the decoder (by running the script
-at `server/decoder/testingtools/decode.sh` as a subprocess), parses the decoded data
-(using `brbparser.py`), and sends it to a client over a web socket, 
-while logging the data received to a JSON(ish) file 
-and printing it to the screen.  However, the exact behaviour depends on the state of the `config.json`
-file in that directory.
+The python server (`server/wsserver.py`) starts the demodulator and the 
+decoder (by running the script at `server/decoder/testingtools/decode.sh` 
+as a subprocess), parses the decoded data (using `brbparser.py`), and sends it 
+to a client over a web socket, while logging the data received to a JSON(ish) 
+file and printing it to the screen.  However, the exact behaviour 
+depends on the state of the `config.json` file in that directory.
 
 ### Configuration Options
 
@@ -109,62 +131,74 @@ in the `callsign` attribute will be ignored.
 
 ### Server Behaviour
 
-Upon running `wsserver.py`, the server will begin reading data from a data source (either live radio
-data, or one of two types of test data depending on the `doTestFromFile` and `haveSDR` settings). As
-each data point is encountered, it is parsed (using `brbparser.py`) into latitude, longitude, and 
-altitude data, and is given a time stamp.  
+Upon running `wsserver.py`, the server will begin reading data from a 
+data source (either live radio data, or one of two types of test data 
+depending on the `doTestFromFile` and `haveSDR` settings). As
+each data point is encountered, it is parsed (using `brbparser.py`) into 
+latitude, longitude, and altitude data, and is given a time stamp.  
 
-After being parsed, each data point is appended to `log.json` (unless logging is disabled).  Each
-data point is stored as a JSON object, with fields "timestamp", "altitude","longitude","latitude",
-"raw" (i.e. the raw data, prior to parsing), "timestring", and "error" (true or false).  The
-data points are appended to the file separated by commas, but if you want to make the file into
-a true JSON file, you'll need to add an opening `[` at the beginning, and replace the trailing
-comma with a closing `]`.
+After being parsed, each data point is appended to `log.json` 
+(unless logging is disabled).  Each data point is stored as a JSON object, 
+with fields "timestamp", "altitude","longitude","latitude", 
+"raw" (i.e. the raw data, prior to parsing), "timestring", and 
+"error" (true or false).  The data points are appended to the 
+file separated by commas, but if you want to make the file into a 
+true JSON file, you'll need to add an opening `[` at the beginning, and 
+replace the trailing comma with a closing `]`.
 
-While running, if the seb socket functionality is enabled, the server can accept a web socket 
-connection from a client (only a single client at a time has been tested).  This connection
-will use localhost port 9000.  If the client 
-disconnects, it can reconnect without the server restarting.  After each data point is parsed, the
-JSON data is sent over the websocket to the client.
+While running, if the seb socket functionality is enabled, the server 
+can accept a web socket connection from a client (only a single client at 
+a time has been tested).  This connection will use localhost, port 9000.  
+If the client disconnects, it can reconnect without the server restarting.  
+After each data point is parsed, the JSON data is sent over the websocket 
+to the client.
 
 Each data point is also printed to stdout when parsed.
 
 
 ## 5. Client
 
-The client application `client/index.html` is an HTML/JavaScript application that runs in a 
-web browser (tested in Chromium and Firefox).  To run the client, open `client/index.html` in
-the browser of your choice.  Upon page load, the client will attempt to connect to the server
-via a websocket.  If the server is not yet running, you'll need to start the server and then
-reload the client.  Restarting the server will also require reloading the client.
+The client application `client/index.html` is an HTML/JavaScript 
+application that runs in a web browser (tested in Chromium and Firefox).  
+To run the client, open `client/index.html` in the browser of your choice.  
+Upon page load, the client will attempt to connect to the server
+via a websocket.  If the server is not yet running, you'll need to start 
+the server and then reload the client.  Restarting the server will also 
+require reloading the client.
 
-The client has two main features: a map, and a display including plots of altitude and vertical
-velocity of the rocket over time.
+The client has two main features: a map, and a display including plots of 
+altitude and vertical velocity of the rocket over time.
 
-The map uses the [OpenLayers](https://openlayers.org/) library, and can connect to a 
-WMS service to use as a base map.  If
-connected to the internet, it will use [OpenStreetMap](https://www.openstreetmap.org) data. Other 
+The map uses the [OpenLayers](https://openlayers.org/) library, and can 
+connect to a WMS service to use as a base map.  If
+connected to the internet, it will use 
+[OpenStreetMap](https://www.openstreetmap.org) data. Other 
 services can be configured in the file `client/config/configWMS.js`.
 
-Every time a new data point is received from the server via the websocket connection, the location
-of the rocket on the map (represented by a triangular icon) will be updated, and the rocket's new 
-location will be added to the red trail representing the rocket's path so far.  Clicking on the magnifying
-glass icon will cause the map to automatically pan and zoom to the rocket's current position.
+Every time a new data point is received from the server via the 
+websocket connection, the location of the rocket on the map 
+(represented by a triangular icon) will be updated, and the rocket's new 
+location will be added to the red trail representing the rocket's path so far.  Clicking on the magnifying glass icon will cause the map to automatically 
+pan and zoom to the rocket's current position.
 
 The altitude display uses the [Flot](http://www.flotcharts.org/) library. 
-Every time a new data point is received from the server, it is added to the collection of data
-displayed in the altitude and velocity plots.  The altitude is readjusted to measure above
-ground level, where "ground level" is the altitude of the first data point received.
+Every time a new data point is received from the server, it is added to the 
+collection of data displayed in the altitude and velocity plots.  
+The altitude is readjusted to measure above ground level, where "ground level" 
+is the altitude of the first data point received. 
 Vertical velocity is calculated from the altitude data.
 
-The current altitude of the rocket should always display above the altitude chart.
+The current altitude of the rocket should display above the 
+altitude chart.
 
 ## 6. Offline Mapping
 
-The client can be configured to use a WMS service as a base map.  If an internet connection will not be
-available at launch, an offline base map can be provided by running a WMS service locally.  We did
-this using [GeoServer](http://geoserver.org/), an open-source Java server for GIS data.  Unfortunately, 
-a description of how to obtain data for your launch site and set up a WMS service using 
-GeoServer is probably beyond the scope of this documentation.
+The client can be configured to use a WMS service as a base map.  
+If an internet connection will not be
+available at launch, an offline base map can be provided by running a 
+WMS service locally.  We did this using [GeoServer](http://geoserver.org/), 
+an open-source Java server for GIS data.  Unfortunately, 
+a description of how to obtain data for your launch site and set up a 
+WMS service using GeoServer is probably beyond the scope of this documentation.
 
 
