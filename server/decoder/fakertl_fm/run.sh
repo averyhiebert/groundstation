@@ -2,8 +2,6 @@
 
 while :
 do
-	#Path assumes that scipt is called from the directory above
-	#cat fakertl_fm/data.raw #Yes, I know this is a terrible assumption to make
-	cat ${BASH_SOURCE%/*}/data.raw
+	cat ${BASH_SOURCE%/*}/data.wav
 	sleep 2
 done
