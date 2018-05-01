@@ -15,7 +15,7 @@ sudo apt-get install direwolf          # Decode APRS
 #If you don't want decoding OR demodulation,
 # and just want to test the server, start here:
 
-sudo apt-get install python-pip python-dev build-essential # Install pip to get fancy python libs.
+sudo apt-get install python-pip python-dev build-essential # Install pip, if you don't have it already, to get python libraries.
 
 #Install python package dependencies
 

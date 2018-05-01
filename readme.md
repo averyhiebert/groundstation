@@ -17,6 +17,9 @@ work, provided that all the dependencies are supported.
 You'll also need an SDR stick compatible with rtl-sdr.  
 We've been using the Realtek RTL2838.
 
+The software is designed to track a BigRedBee BeeLine GPS device, but
+could be modified fairly easily to work with other APRS-based GPS transmitters.
+
 ## Installation:
 
 Install dependencies as described in `documentation/installation.txt` 
@@ -43,14 +46,14 @@ in a web browser.
 
 ## Calibration:
 
-There is some timing error inherent in each sdr stick.  You can find this 
-value using the open-source "Kalibrate" tool, and then use it for the "-p" 
-option when running rtl\_fm.  If you don't use an accurate "-p" value, 
-you'll still be able to hear regular FM radio stations just fine, but 
-you might have trouble decoding APRS.
+The `rtl_fm` software can take a "-p" flag to correct for some minor
+imperfections in the SDR stick.  This has no real effect when listening to
+regular FM radio stations, and I'm not sure to what extent it affects
+attempts to decode APRS.  If you are having trouble getting APRS decoding to
+work, this might be something to look into.
 
-Running `rtl_test -p` and waiting for several minutes should suffice 
-for finding an accurate ppm error value.
+You can find a "-p" value for your SDR stick by running `rtl_test -p` and
+waiting for several minutes.
 
 ## Licensing:
 

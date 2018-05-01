@@ -17,15 +17,15 @@ they connect.
 ## 1. Overview
 
 The UVic Rocketry Ground Station is used to display live telemetry 
-data (transmitted by an off-the-shelf "BigRedBee" board) during a rocket's 
-flight, allowing us to find the rocket
+data (transmitted by an off-the-shelf "BeeLine GPS" board from BigRedBee) 
+during a rocket's flight, allowing us to find the rocket
 (or its wreckage) after it lands, as well as identifying parachute 
 deployment and other stages in the rocket's flight.  The software 
 supports location tracking on a map, live data logging, and
 live visualization of altitude and vertical velocity.  Offline use is 
 also supported.
 
-During operation, telemetry data transmitted from a BigRedBee board 
+During operation, telemetry data transmitted from the BeeLine board 
 using the APRS protocol is received by a software defined radio.  The 
 data is demodulated and decoded by open-source software
 `rtl_fm` and `direwolf`.  The output from these programs is then 
@@ -33,7 +33,7 @@ read by a python server, which
 both records the data and makes it available to a client-side webapp 
 via a web socket.
 
-The client webapp receives frames of telemetry data from the 
+The client webapp receives points of GPS data from the 
 server and uses this information to
 display the rocket on an OpenLayers map, which can be made to 
 work offline.  Altitude data is also plotted over time (using the 
@@ -46,7 +46,7 @@ Besides a computer to run the ground station software, three main
 hardware componnets are necessary: the transmitter on the rocket, the 
 software defined radio (SDR) stick, and a suitable antenna.
 
-The transmitter on the rocket is a commercial off-the-shelf tracking unit 
+The transmitter on the rocket is a commercial off-the-shelf "BeeLine GPS" unit
 sold by [BigRedBee](http://www.bigredbee.com/), with a suitable antenna, 
 battery, and the like.  
 This obviously needs to be placed somewhere on the rocket that isn't blocked by 
@@ -54,20 +54,22 @@ materials that are opaque to radio transmissions - for example, it can't
 be placed in a carbon fibre tube.
 
 The receiver on the ground station should be a Software Defined Radio (SDR) 
-stick similar to the Realtek RTL2838 (which we use).  
-[Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/) 
-is a list of possibly compatible hardware.  This is essentially a 
-little USB dongle, designed for receiving digital TV, that can also 
-receive a variety of radio frequencies.
+usb dongle using technology such as the Realtek RTL2838 or similar.  I'm not
+sure exactly where we bought ours, but it looks more or less the same as
+[this](https://www.amazon.ca/RTL-SDR-Realtek-Upgrade-version-RTL2832U/dp/B00WBOOX38/ref=pd_lpo_vtph_23_lp_tr_t_2/146-0166966-8330406?_encoding=UTF8&psc=1&refRID=RYMK6VN6XV3Y26K2YEC5).
+This is essentially a little USB dongle, designed for receiving digital TV, 
+that can also receive a variety of radio frequencies.
+A list of possibly compatible hardware can be found 
+[Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/).  
 
 The SDR stick should be attached to an antenna.  
-Most will come with a small antenna that works fine
-at short-to-medium ranges.  We haven't tested it in flight, 
+Most will come with a small antenna that works reasonably well.  
+We haven't tested this default antenna in flight, 
 instead using an antenna from a handheld BaoFeng radio, but other 
 solutions may also work.  Hopefully someone with more electrical knowledge can
 expand on this section of the documentation in the future.
 
-A final note: although this software can be run on pretty much any computer, 
+A final note: although this software can be run on a typical personal computer, 
 environmental conditions at some launch events (e.g. dust and extreme heat at 
 the Spaceport America Cup) might have adverse effects on
 regular laptops, so it could be worth designing custom ground station hardware.  UVic Rocketry's ground station consists of a Wandboard Quad board 
@@ -75,7 +77,7 @@ housed in a Pelican case, and worked fine for us in desert conditions.
 
 ## 3. Decoding and Demodulation
 
-The signal received from the BigRedBee board is transmitted once per 
+The signal received from the BeeLine board is transmitted once per 
 second (or at another rate, depending on configuration) using the APRS digital 
 radio protocol.  This needs to be received, demodulated, and
 decoded by the ground station. The system uses 
@@ -85,7 +87,7 @@ which is essentiall raw audio data, is piped into
 [direwolf](https://github.com/wb2osz/direwolf), which decodes the APRS packets 
 into a string containing latitude and longitude (in "degrees, decimal minutes" 
 format), as well as altitude.  The exact format and content of the 
-data received from the BigRedBee depends on how the board is configured.  
+data received from the BeeLine depends on how the board is configured.  
 More information about this may be added to this documentation in the future.
 
 ## 4. Server
@@ -124,7 +126,7 @@ send data points over the connection as they are received.  If `false`, this wil
 if enabled, and output in the console will occur).
 - **frequency**: The radio frequency to monitor.  Should be a string, with "M" signifying megahertz (i.e.
 enter the freuency 433.00 MHz as "433.00M").
-- **callsign**: The callsign that the Big Red Bee is transmitting under.  Only has an effect if 
+- **callsign**: The callsign that the BeeLine board is transmitting under.  Only has an effect if 
 `filterCallsign` is enabled.
 - **filterCallsign**: If `true`, any data packets originating from a callsign other than that specified
 in the `callsign` attribute will be ignored.
