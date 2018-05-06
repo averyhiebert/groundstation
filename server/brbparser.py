@@ -25,8 +25,7 @@ def parseBRB(line):
         data["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
         data["timestamp"] = time.time()*1000  #Gives ms as a floating point.
     else:
-        print "Error parsing BRB data"
-        data["error"] = True
+        raise RuntimeError("Error parsing BRB data - usually because the transmitter board doesn't have GPS lock yet")
     
     return json.dumps(data)
 

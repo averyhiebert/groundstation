@@ -89,24 +89,23 @@ def send_line(line):
         if(filterCallsign and callsign not in line):
             return
     except:
-        return # When BRB first establishes GPS lock, an unparseable message is received.
-
+        return # When BRB lacks  GPS lock, an unparseable message is received.
 
     if len(line) > 0 and line[0] == "[":
         try:
             datapoint = parseBRB(line)
-        except:
+        except Exception, e:
             datapoint = {}
             datapoint["error"] = True
-            datapoint["errorMessage"] = sys.exc_info()[0]
+            datapoint["errorMessage"] = e.message
             datapoint["timestring"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
             datapoint["timestamp"] = time.time()*1000  #Gives ms as a floating point.
-            datapoint["raw"] = line
+            #datapoint["raw"] = line # In error cases, the line frequently contains strange characters that cause exceptions
+            datapoint = json.dumps(datapoint)
 
         if doWebSocket:
             APRSServerProtocol.broadcast_message(datapoint)
         logData(datapoint)
-        #print parseBRB(line)
         print datapoint
     elif "alt" in line:
         print line
