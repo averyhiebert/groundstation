@@ -37,8 +37,12 @@
 }
 
 .infoContainer {
-	width: 100%; 
+	
+    width: 100%; 
     margin: 0px !important;
+
+   
+
     color: white;
     height: 300px;
     font-weight: 600;
@@ -46,11 +50,13 @@
     z-index: 2;
     bottom: 0px;
     left:0;
-    background-color: rgba(0, 46, 93,0.75);
+    background-color: rgba(60, 46, 93,0.95);
     font-family: 'Lato', sans-serif;
+    
 }
 
 .componentBlock {
+
 	margin-left: 0px;
 	padding-left: 0px;
     font-family: 'Lato', sans-serif;
@@ -78,10 +84,11 @@
     padding-left: 0px;
     background-color:black;
     position: fixed;
-    opacity:0.7;
+    opacity:0.8;
     left:0;
     z-index: 2;
     color: white;
+    font-weight:bold;
     font-family: 'Lato', sans-serif;
     text-align: center;
 }
@@ -137,7 +144,7 @@ locatebtn:hover {
 }
 curralt{
     font-family: 'Lato',sans-serif,italic;
-    color:white;
+    color:green;
     width: 30%;
     position: absolute;
     left: 0%;
@@ -145,10 +152,11 @@ curralt{
     height: inherit;
     font-size: 150%;
     border-right: solid #000000 1px;
+    margin-left:5%;
 }
 latlong{
     font-family: 'Lato',sans-serif,italic;
-    color:white;
+    color:green;
     /*width: 20%;*/
     position: absolute;
     right:0%;
@@ -156,51 +164,42 @@ latlong{
     text-align: right;
     height: inherit;
     border-right: solid #000000 1px;
+    margin-right:5%;
 }
 .topper{
-    position: absolute;
+    position:absolute;
+margin-left:auto;
+margin-right:auto;
+left:0;
+right:0;
     z-index: 2;
-    margin-left: 38.5%;
-    margin-right: 50%;
-    width: 25%;
-    height: 22px;
-    opacity: .6;
+    text-align:center;
+    width: 200px;
+    height: 30px;
+    opacity: .8;
     top:0px;
-    color: white;
     font-family: 'Lato',sans-serif,italic;
     background-color: black;
     border-color: black;
     border-width: 1px;
     border-radius: 0px 0px 25px 25px;
     display: inline-block;
+    
  
 }
-callsign{
-    margin-left: 2%;
-    width: auto;
-    text-align: center;
-    position: fixed;
-    height: inherit;
-    top:0px;
-    
-}
+
 
 logo{
+    text-indent:00px;
     position: relative;
-    margin-left: 47%;
-    margin-right:50%;
+    text-align:center;
+    margin: auto;
     height: inherit;
     top: 0px;
     display: inline-block;
 }
 
-mode {
-    margin-right: 2%;
-    margin-left: 20%;
-    top: 0px;
-    height: inherit;
-    position: fixed;
-}
+
 
 btn:hover {
   text-decoration: none;
