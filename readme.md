@@ -1,10 +1,12 @@
 # UVic Rocketry Ground Station Software (Proof-of-Concept)
-This software uses a software defined radio and the APRS network to track
+This software uses a software defined radio and the APRS protocol to track
 a rocket in flight and display its location and altitude in real time.
 It was succesfully used to recover two rockets flown by the 
 UVic Rocketry team at the Spaceport America Cup in 2017.  That being said, 
-this is only intended to be a proof-of-concept, preceding work on a more 
-professionaly-designed finished program.
+this was only intended to be a proof-of-concept, and as a result the design
+is not ideal for maintainability and further modification.  We have already
+begun applying the lessons we learned from this project towards what will
+hopefully be a more robust successor.
 
 This readme describes basic setup information.  For a more in-depth description of the system, see the `documentation` directory.
 
@@ -14,8 +16,8 @@ This readme describes basic setup information.  For a more in-depth description 
 This project was developed using Ubuntu 16.  Other Linux distros should also 
 work, provided that all the dependencies are supported.
 
-You'll also need an SDR stick compatible with rtl-sdr.  
-We've been using the Realtek RTL2838.
+You'll also need an "rtl-sdr" software defined radio usb device.  Information
+about this can be found at https://www.rtl-sdr.com/.
 
 The software is designed to track a BigRedBee BeeLine GPS device, but
 could be modified fairly easily to work with other APRS-based GPS transmitters.
@@ -44,16 +46,8 @@ running `runtest.sh`.
 First start `server/wsserver.py`, and then open `client/index.html` 
 in a web browser.
 
-## Calibration:
+**Note:** This repository's history has been modified to remove some private information.  As a side effect, *older commits may not run as expected!*
 
-The `rtl_fm` software can take a "-p" flag to correct for some minor
-imperfections in the SDR stick.  This has no real effect when listening to
-regular FM radio stations, and I'm not sure to what extent it affects
-attempts to decode APRS.  If you are having trouble getting APRS decoding to
-work, this might be something to look into.
-
-You can find a "-p" value for your SDR stick by running `rtl_test -p` and
-waiting for several minutes.
 
 ## Licensing:
 
