@@ -13,11 +13,11 @@ This readme describes basic setup information.  For a more in-depth description 
 
 ## OS & Hardware Recommendations:
 
-This project was developed using Ubuntu 16.  Other Linux distros should also 
+This project was developed for Ubuntu 16.  Other Linux distros should also 
 work, provided that all the dependencies are supported.
 
 You'll also need an "rtl-sdr" software defined radio usb device.  Information
-about this can be found at https://www.rtl-sdr.com/.
+about this sort of device can be found at https://www.rtl-sdr.com/.
 
 The software is designed to track a BigRedBee BeeLine GPS device, but
 could be modified fairly easily to work with other APRS-based GPS transmitters.
@@ -36,7 +36,8 @@ in the `installation.txt` file.
 Test rtl-sdr/rtl\_fm by plugging in your SDR stick and running the script 
 `server/decoder/testingtools/hearsdr.sh`.  If you're not in Victoria, pass 
 in the frequency of a local FM radio station (e.g. `./hearsdr.sh 90.5M`).  
-This script assumes that you have aplay installed.
+This script should play music from the radio 
+(assuming you have aplay installed).
 
 You can test direwolf by going to the `server/decoder` directory and 
 running `runtest.sh`.
@@ -49,9 +50,11 @@ in a web browser.
 **Note:** This repository's history has been modified to remove some private information.  As a side effect, *older commits may not run as expected!*
 
 
-## Licensing:
+## Copyright & Licensing:
+This repository includes distributions of the Flot charting library, 
+the OpenLayers mapping library, and jQuery, as well as the "Lato" font.  
+The licenses for Flot and for Lato can be found in their respective directories.
+The OpenLayers and jQuery files contain links to their respective licenses.
 
-The client GUI uses the Flot charting library and the OpenLayers mapping 
-library.  Links to licenses for those libraries can be found in comments at
-the top of the files in question.  Otherwise, all code is copyrighted by its 
-creator(s) unless otherwise specified (at least for the time being).
+Otherwise, everything not listed above is released according to the MIT 
+license as described in `LICENSE.txt`

@@ -22,8 +22,9 @@ during a rocket's flight, allowing us to find the rocket
 (or its wreckage) after it lands, as well as identifying parachute 
 deployment and other stages in the rocket's flight.  The software 
 supports location tracking on a map, live data logging, and
-live visualization of altitude and vertical velocity.  Offline use is 
-also supported.
+live visualization of altitude and vertical velocity.  It is designed to
+work without an internet connection, provided that you host a WMS map
+service locally.
 
 During operation, telemetry data transmitted from the BeeLine board 
 using the APRS protocol is received by a software defined radio.  The 
@@ -43,33 +44,31 @@ is useful for determining the flight state of the rocket.
 ## 2. Hardware
 
 Besides a computer to run the ground station software, three main 
-hardware componnets are necessary: the transmitter on the rocket, the 
+hardware components are necessary: the transmitter on the rocket, the 
 software defined radio (SDR) stick, and a suitable antenna.
 
-The transmitter on the rocket is a commercial off-the-shelf "BeeLine GPS" unit
-sold by [BigRedBee](http://www.bigredbee.com/), with a suitable antenna, 
-battery, and the like.  
+The transmitter on the rocket should be a commercial off-the-shelf 
+"BeeLine GPS" unit sold by [BigRedBee](http://www.bigredbee.com/).
 This obviously needs to be placed somewhere on the rocket that isn't blocked by 
 materials that are opaque to radio transmissions - for example, it can't 
 be placed in a carbon fibre tube.
 
-The receiver on the ground station should be a Software Defined Radio (SDR) 
-usb dongle using technology such as the Realtek RTL2838 or similar.  I'm not
-sure exactly where we bought ours, but it looks more or less the same as
-[this](https://www.amazon.ca/RTL-SDR-Realtek-Upgrade-version-RTL2832U/dp/B00WBOOX38/ref=pd_lpo_vtph_23_lp_tr_t_2/146-0166966-8330406?_encoding=UTF8&psc=1&refRID=RYMK6VN6XV3Y26K2YEC5).
-This is essentially a little USB dongle, designed for receiving digital TV, 
-that can also receive a variety of radio frequencies.
-A list of possibly compatible hardware can be found 
-[Here](http://www.rtlsdr.com/2012/04/rtlsdr-compatibility-list/).  
+The receiver on the ground station should be an "rtl-sdr" device.
+This is a type of little USB dongle, originally designed for receiving 
+digital TV, that can also receive a variety of radio frequencies.  More
+information about this technology can be found 
+[here](https://www.rtl-sdr.com), and you can find a variety of cheap (< $20)
+compatible devices on the internet.
 
 The SDR stick should be attached to an antenna.  
-Most will come with a small antenna that works reasonably well.  
-We haven't tested this default antenna in flight, 
+Most rtl-sdr devices will come with a small whip antenna that works 
+reasonably well.  We haven't tested this default antenna in flight, 
 instead using an antenna from a handheld BaoFeng radio, but other 
 solutions may also work.  Hopefully someone with more electrical knowledge can
 expand on this section of the documentation in the future.
 
-A final note: although this software can be run on a typical personal computer, 
+A final note: although this software can be run on a typical laptop 
+(running Ubuntu or some other variety of Linux), 
 environmental conditions at some launch events (e.g. dust and extreme heat at 
 the Spaceport America Cup) might have adverse effects on
 regular laptops, so it could be worth designing custom ground station hardware.  UVic Rocketry's ground station consists of a Wandboard Quad board 
@@ -83,7 +82,7 @@ radio protocol.  This needs to be received, demodulated, and
 decoded by the ground station. The system uses 
 [rtl\_fm](http://kmkeen.com/rtl-demod-guide/), part of the 
 rtl-sdr project, to demodulate the signal.  The output from `rtl_fm`, 
-which is essentiall raw audio data, is piped into 
+which is essentially raw audio data, is piped into 
 [direwolf](https://github.com/wb2osz/direwolf), which decodes the APRS packets 
 into a string containing latitude and longitude (in "degrees, decimal minutes" 
 format), as well as altitude.  The exact format and content of the 
@@ -114,7 +113,7 @@ option is available to make testing with the server and client together easier.
 point in `data.json`.  Contrary to what the name suggests, a larger number results in a lower playback
 speed.  Sorry.
 - **haveSDR**: Used to indicate whether you currently have the SDR hardware (SDR stick and antenna)
-plugged in to the computer.  It `true`, the server will attempt to receive data live via radio (i.e.
+plugged in to the computer.  If `true`, the server will attempt to receive data live via radio (i.e.
 will actual perform its intended purpose as a ground station).  If false,
 prerecorded test data (found in `server/decoder/fakertl_fm`) will be used instead, fully testing the
 server and direwolf, but not `rtl_fm`, and not actually receiving any signal via radio.
@@ -144,11 +143,11 @@ After being parsed, each data point is appended to `log.json`
 with fields "timestamp", "altitude","longitude","latitude", 
 "raw" (i.e. the raw data, prior to parsing), "timestring", and 
 "error" (true or false).  The data points are appended to the 
-file separated by commas, but if you want to make the file into a 
-true JSON file, you'll need to add an opening `[` at the beginning, and 
-replace the trailing comma with a closing `]`.
+file as JSON objects separated by commas, but if you want to make the 
+file into a true JSON file, you'll need to add an opening `[` at the 
+beginning, and replace the trailing comma with a closing `]`.  Sorry.
 
-While running, if the seb socket functionality is enabled, the server 
+While running, if the web socket functionality is enabled, the server 
 can accept a web socket connection from a client (only a single client at 
 a time has been tested).  This connection will use localhost, port 9000.  
 If the client disconnects, it can reconnect without the server restarting.  
@@ -195,8 +194,8 @@ altitude chart.
 
 ## 6. Offline Mapping
 
-The client can be configured to use a WMS service as a base map.  
-If an internet connection will not be
+The client can be configured to use a WMS services as a base map, by
+modifying `client/config/configWMS.js`.  If an internet connection will not be
 available at launch, an offline base map can be provided by running a 
 WMS service locally.  We did this using [GeoServer](http://geoserver.org/), 
 an open-source Java server for GIS data.  Unfortunately, 
