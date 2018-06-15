@@ -33,7 +33,8 @@ complete the next step quickly.
 Open the file `client/index.html` in a browser.  If you have an internet
 connection, you should see an OpenStreetMaps map filling most of the page.
 With luck, a red arrow representing the rocket should appear on the map after
-a couple of seconds.
+a couple of seconds.  In test mode, the location of the rocket will be
+determined by previously recorded data stored in the `data.json` file.
 
 ## Apology
 This process is not very intuitive, since this entire project was an
