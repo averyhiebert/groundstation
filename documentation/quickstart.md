@@ -12,7 +12,7 @@ or from Adafruit, Amazon, or any of a number of other online retailers.
 
 ## Step 2 - Installation
 Install the dependencies as described in installation.txt.  Note: it is
-assumed that you are using Python 2.7. Sorry.
+assumed that you are using Python 2.7.
 
 ## Step 3 - Configuration
 Edit the configuration file `server/config.json`.  The
@@ -27,12 +27,13 @@ start producing output in the terminal (and sending it to any
 connected clients) after a 10-second pause.  
 The pause is meant to allow you time to start the client
 before the server starts sending data, so you should probably hurry and
-complete the next step quickly.  Sorry.
+complete the next step quickly.
 
 ## Step 5 - Start the client
 Open the file `client/index.html` in a browser.  If you have an internet
 connection, you should see an OpenStreetMaps map filling most of the page.
-With luck, data from the server should begin to appear on the map.
+With luck, a red arrow representing the rocket should appear on the map after
+a couple of seconds.
 
 ## Apology
 This process is not very intuitive, since this entire project was an

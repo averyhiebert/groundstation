@@ -1,6 +1,5 @@
 # INSTALLATION INSTRUCTIONS (for Ubuntu)
 # (You could try running this as a script, even)
-# A list of everything I had to do to get the ground station so far working
 
 
 sudo apt-get update
