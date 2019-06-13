@@ -50,16 +50,21 @@ def parseTM(line):
     regex = ":!/(?P<lat>....)(?P<lon>....)'(?P<alt>..)Q(?P<info>.*)"
     m = re.search(regex,line)
     if(m):
+        data["info"] = m.group("info") # Includes continuity, GPS lock, etc.
+        data["error"] = False
         lat = decode_ll(m.group("lat"),is_lat=True)
         lon = decode_ll(m.group("lon"),is_lat=False)
         alt = decode_alt(m.group("alt")) 
         if lat == None or lon == None:
             data["error"] = True
+            if data["info"][0] == "U":
+                data["errorMessage"] = "No GPS lock."
+            else:
+                data["errorMessage"] = "Unknown parsing error."
         # Convert to str to handle possible 'None'
         data["latitude"] = str(lat)
         data["longitude"] = str(lon)
         data["altitude"] = str(alt)
-        data["info"] = m.group("info") # Includes continuity, GPS lock, etc.
         return json.dumps(data)
     else:
         raise RuntimeError("Error parsing TeleMetrum data.")

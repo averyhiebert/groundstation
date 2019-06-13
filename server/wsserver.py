@@ -14,6 +14,7 @@ from autobahn.twisted.websocket import WebSocketServerFactory
 from time import localtime, strftime
 
 from brbparser import parseBRB
+from tmparser import parseTM
 
 # Load configuration:
 try:
@@ -32,6 +33,7 @@ try:
     callsign = configuration["callsign"]
     filterCallsign = configuration["filterCallsign"]
 except:
+    print("Error: unable to load configuration.")
     doWebSocket = True
     doTestFromFile = True
     haveSDR = False
@@ -93,7 +95,18 @@ def send_line(line):
 
     if len(line) > 0 and line[0] == "[":
         try:
-            datapoint = parseBRB(line)
+            # Check which type of device this is, and parse accordingly.
+            #  (Sorry, I know the current parsing system is awful.)
+            #  (direwolf already parses lat/lon/alt, so really we shouldn't
+            #   even bother doing this ourselves.)
+            if ">APAM" in line:
+                datapoint = parseTM(line)
+            elif ">APBL" in line:
+                datapoint = parseBRB(line)
+            else:
+                raise RuntimeError("Unrecognized APRS device/format.")
+                # But really, some modification would allow us to handle all
+                #  devices/formats so long as they include lat/lon/alt
         except Exception, e:
             datapoint = {}
             datapoint["error"] = True
