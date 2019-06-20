@@ -93,9 +93,9 @@ function handle(data) {
     document.getElementById("altitude").innerHTML = Math.round(data["altitude"] * 100) / 100;
     
     //collect these for positioning icon
-    var lat = data["latitude"];
-    var lon = data["longitude"];
-    var alt = data["altitude"]
+    var lat = parseFloat(data["latitude"]);
+    var lon = parseFloat(data["longitude"]);
+    var alt = parseFloat(data["altitude"]);
     
     //set global variables to current latlon, these come from index.html
     centerlat = lat;
