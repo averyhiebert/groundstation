@@ -61,10 +61,9 @@ def parseTM(line):
                 data["errorMessage"] = "No GPS lock."
             else:
                 data["errorMessage"] = "Unknown parsing error."
-        # Convert to str to handle possible 'None'
-        data["latitude"] = str(lat)
-        data["longitude"] = str(lon)
-        data["altitude"] = str(alt)
+        data["latitude"] = lat
+        data["longitude"] = lon
+        data["altitude"] = alt
         return json.dumps(data)
     else:
         raise RuntimeError("Error parsing TeleMetrum data.")
